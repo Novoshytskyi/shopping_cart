@@ -81,7 +81,7 @@ ThemeData customThemeSettings = ThemeData.dark(useMaterial3: false).copyWith(
       ),
       borderSide: BorderSide(
         color: richColor,
-        width: 1.0,
+        width: 2.0,
       ),
     ),
     focusedBorder: OutlineInputBorder(
@@ -90,7 +90,7 @@ ThemeData customThemeSettings = ThemeData.dark(useMaterial3: false).copyWith(
       ),
       borderSide: BorderSide(
         color: richColor,
-        width: 2.0,
+        width: 3.0,
       ),
     ),
     errorBorder: OutlineInputBorder(
@@ -99,7 +99,7 @@ ThemeData customThemeSettings = ThemeData.dark(useMaterial3: false).copyWith(
       ),
       borderSide: BorderSide(
         color: Colors.red,
-        width: 2.0,
+        width: 3.0,
       ),
     ),
     focusedErrorBorder: OutlineInputBorder(
@@ -108,7 +108,7 @@ ThemeData customThemeSettings = ThemeData.dark(useMaterial3: false).copyWith(
       ),
       borderSide: BorderSide(
         color: Colors.red,
-        width: 2.0,
+        width: 3.0,
       ),
     ),
   ),

@@ -66,10 +66,23 @@ class _AuthPageState extends State<AuthPage> {
         actions: [
           PopupMenuButton(
             onSelected: (value) {
-              if (value == 'item1') {
-                Navigator.pushNamed(context, '/page3'); //todo
-              } else if (value == 'item2') {
-                Navigator.pushNamed(context, '/page5'); //todo
+              switch (value) {
+                case 'item1':
+                  {
+                    Navigator.pushNamed(context, '/page4');
+                  }
+                case 'item2':
+                  {
+                    Navigator.pushNamed(context, '/page4');
+                  }
+                case 'item3':
+                  {
+                    Navigator.pushNamed(context, '/page3');
+                  }
+                case 'item4':
+                  {
+                    Navigator.pushNamed(context, '/page5');
+                  }
               }
             },
             itemBuilder: (context) => [
@@ -86,6 +99,30 @@ class _AuthPageState extends State<AuthPage> {
                 child: Row(
                   children: [
                     Text(popupMenuItemText2),
+                  ],
+                ),
+              ),
+              const PopupMenuItem(
+                value: null,
+                child: Divider(
+                  color: richColor,
+                  thickness: 2.0,
+                  // height: 1.0,
+                ),
+              ),
+              const PopupMenuItem(
+                value: 'item3',
+                child: Row(
+                  children: [
+                    Text(popupMenuItemText3),
+                  ],
+                ),
+              ),
+              const PopupMenuItem(
+                value: 'item4',
+                child: Row(
+                  children: [
+                    Text(popupMenuItemText4),
                   ],
                 ),
               ),
@@ -106,6 +143,77 @@ class _AuthPageState extends State<AuthPage> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
+                  //!---
+                  // child: Center(
+                  //   child: SingleChildScrollView(
+                  //     child: Column(
+                  //       children: [
+                  //         TextFormField(
+                  //           style: Theme.of(context).textTheme.bodySmall,
+                  //           focusNode: _emailFocus,
+                  //           onFieldSubmitted: (_) {
+                  //             _fieldFocusChange(
+                  //                 context, _emailFocus, _passFocus);
+                  //           },
+                  //           controller: _emailController,
+                  //           decoration: InputDecoration(
+                  //             labelText: emailFormFieldLabelText,
+                  //             hintText: emailFormFieldHintText,
+                  //             prefixIcon: const Icon(
+                  //               Icons.mail_outline,
+                  //             ),
+                  //             suffixIcon: GestureDetector(
+                  //               onTap: () {
+                  //                 setState(() {
+                  //                   _emailController.clear();
+                  //                 });
+                  //               },
+                  //               child: _emailController.text.isNotEmpty
+                  //                   ? const Icon(Icons.close_outlined)
+                  //                   : const SizedBox(),
+                  //             ),
+                  //           ),
+                  //           keyboardType: TextInputType.emailAddress,
+                  //           validator: _vaidateEmail,
+                  //           onChanged: (value) {
+                  //             setState(() {});
+                  //           },
+                  //           onSaved: (value) => newUserAuth.email = value,
+                  //         ),
+                  //         const SizedBox(
+                  //           height: 25,
+                  //         ),
+                  //         TextFormField(
+                  //           style: Theme.of(context).textTheme.bodySmall,
+                  //           focusNode: _passFocus,
+                  //           controller: _passController,
+                  //           obscureText: _hidePass,
+                  //           decoration: InputDecoration(
+                  //             labelText: passFormFieldLabelText,
+                  //             hintText: passFormFieldHintTex,
+                  //             prefixIcon: const Icon(
+                  //               Icons.gpp_good_outlined,
+                  //             ),
+                  //             suffixIcon: IconButton(
+                  //               icon: Icon(_hidePass
+                  //                   ? Icons.visibility_off_outlined
+                  //                   : Icons.visibility_outlined),
+                  //               onPressed: () {
+                  //                 setState(() {
+                  //                   _hidePass = !_hidePass;
+                  //                 });
+                  //               },
+                  //             ),
+                  //           ),
+                  //           validator: _validatePassword,
+                  //           onSaved: (value) =>
+                  //               newUserAuth.password = value, //!!!
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  //!---
                   child: ListView(
                     children: [
                       const SizedBox(
@@ -172,6 +280,7 @@ class _AuthPageState extends State<AuthPage> {
                       ),
                     ],
                   ),
+                  //!---
                 ),
               ),
               ReusableButton(

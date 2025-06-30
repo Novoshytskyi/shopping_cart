@@ -10,10 +10,10 @@ void showCustomSnackBar(BuildContext context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       padding: const EdgeInsets.all(
-        40.0,
+        50.0,
       ),
       duration: const Duration(
-        milliseconds: 800,
+        milliseconds: 1000,
       ),
       content: Center(
         child: Text(

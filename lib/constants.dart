@@ -44,8 +44,10 @@ const shoppingCartSnackBarText = 'Товар удален';
 const orderCompletedSnackBarText = 'Заказ принят';
 const makeOrderButtonText = 'СДЕЛАТЬ ЗАКАЗ';
 
-const popupMenuItemText1 = 'Показать товары';
-const popupMenuItemText2 = 'Показать пользователей';
+const popupMenuItemText1 = 'Корзина';
+const popupMenuItemText2 = 'Покупки';
+const popupMenuItemText3 = 'Товары';
+const popupMenuItemText4 = 'Пользователи';
 
 const usersInfoMessage = 'Данные Пользователей не найденны.';
 const productsPageMessage = 'Данные Продуктов не найденны.';

@@ -80,6 +80,139 @@ class _RegisterPageState extends State<RegisterPage> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
+                  //!---
+                  // child: Center(
+                  //   child: SingleChildScrollView(
+                  //     child: Column(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //         TextFormField(
+                  //           style: Theme.of(context).textTheme.bodySmall,
+                  //           focusNode: _nameFocus,
+                  //           onFieldSubmitted: (_) {
+                  //             _fieldFocusChange(
+                  //                 context, _nameFocus, _emailFocus);
+                  //           },
+                  //           controller: _nameController,
+                  //           decoration: InputDecoration(
+                  //             labelText: nameFormFieldLabelText,
+                  //             hintText: nameFormFieldHintText,
+                  //             prefixIcon: const Icon(
+                  //               Icons.person_outlined,
+                  //             ),
+                  //             suffixIcon: GestureDetector(
+                  //               onTap: () {
+                  //                 setState(() {
+                  //                   _nameController.clear();
+                  //                 });
+                  //               },
+                  //               child: _nameController.text.isNotEmpty
+                  //                   ? const Icon(Icons.close_outlined)
+                  //                   : const SizedBox(),
+                  //             ),
+                  //           ),
+                  //           keyboardType: TextInputType.emailAddress,
+                  //           validator: _validateName,
+                  //           onChanged: (value) {
+                  //             setState(() {});
+                  //           },
+                  //           onSaved: (value) => newUserAuth.email = value,
+                  //         ),
+                  //         const SizedBox(
+                  //           height: 25,
+                  //         ),
+                  //         TextFormField(
+                  //           style: Theme.of(context).textTheme.bodySmall,
+                  //           focusNode: _emailFocus,
+                  //           onFieldSubmitted: (_) {
+                  //             _fieldFocusChange(
+                  //                 context, _emailFocus, _passFocus);
+                  //           },
+                  //           controller: _emailController,
+                  //           decoration: InputDecoration(
+                  //             labelText: emailFormFieldLabelText,
+                  //             hintText: emailFormFieldHintText,
+                  //             prefixIcon: const Icon(
+                  //               Icons.mail_outline,
+                  //             ),
+                  //             suffixIcon: GestureDetector(
+                  //               onTap: () {
+                  //                 setState(() {
+                  //                   _emailController.clear();
+                  //                 });
+                  //               },
+                  //               child: _emailController.text.isNotEmpty
+                  //                   ? const Icon(Icons.close_outlined)
+                  //                   : const SizedBox(),
+                  //             ),
+                  //           ),
+                  //           keyboardType: TextInputType.emailAddress,
+                  //           validator: _vaidateEmail,
+                  //           onChanged: (value) {
+                  //             setState(() {});
+                  //           },
+                  //           onSaved: (value) => newUserAuth.email = value,
+                  //         ),
+                  //         const SizedBox(
+                  //           height: 25,
+                  //         ),
+                  //         TextFormField(
+                  //           style: Theme.of(context).textTheme.bodySmall,
+                  //           focusNode: _passFocus,
+                  //           onFieldSubmitted: (_) {
+                  //             _fieldFocusChange(
+                  //                 context, _passFocus, _passConfirmFocus);
+                  //           },
+                  //           controller: _passController,
+                  //           obscureText: _hidePass,
+                  //           decoration: InputDecoration(
+                  //             // err
+                  //             labelText: passFormFieldLabelText,
+                  //             hintText: passFormFieldHintTex,
+                  //             prefixIcon: const Icon(
+                  //               Icons.gpp_good_outlined,
+                  //             ),
+                  //             suffixIcon: IconButton(
+                  //               // color: richColor,
+                  //               icon: Icon(_hidePass
+                  //                   ? Icons.visibility_off_outlined
+                  //                   : Icons.visibility_outlined),
+                  //               onPressed: () {
+                  //                 setState(() {
+                  //                   _hidePass = !_hidePass;
+                  //                 });
+                  //               },
+                  //             ),
+                  //           ),
+                  //           validator: _validatePassword,
+                  //           onSaved: (value) =>
+                  //               newUserAuth.password = value, //!!!
+                  //         ),
+                  //         const SizedBox(
+                  //           height: 25,
+                  //         ),
+                  //         TextFormField(
+                  //           style: Theme.of(context).textTheme.bodySmall,
+                  //           focusNode: _passConfirmFocus,
+                  //           controller: _confirmPassController,
+                  //           obscureText: _hidePass,
+                  //           decoration: const InputDecoration(
+                  //             labelText: confirmPassFormFieldLabelText,
+                  //             hintText: confirmPassFormFieldHintTex,
+                  //             filled: true,
+                  //             prefixIcon: Icon(Icons.gpp_maybe_outlined),
+                  //           ),
+                  //           // validator: _validatePassword,
+                  //           validator: _validatePasswordConfirm,
+                  //         ),
+                  //         const SizedBox(
+                  //           height: 10.0,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  //!---
                   child: ListView(
                     children: [
                       const SizedBox(
@@ -206,6 +339,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ],
                   ),
+                  //!---
                 ),
               ),
               ReusableButton(
