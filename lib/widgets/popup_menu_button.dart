@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import '../theme_settings.dart';
+import 'package:flutter/foundation.dart';
 
 class PopupMenuButtonNew extends StatelessWidget {
   const PopupMenuButtonNew({super.key});
@@ -72,15 +72,22 @@ class PopupMenuButtonNew extends StatelessWidget {
             ],
           ),
         ),
+
+        //TODO: Скрыть в релиз. режиме.
         const PopupMenuItem(
           value: 'item4',
-          child: Row(
-            children: [
-              Icon(Icons.people_alt_outlined),
-              SizedBox(width: 12.0),
-              Text('Пользователи'),
-            ],
-          ),
+          height: kReleaseMode ? 0.0 : kMinInteractiveDimension, //? +
+          // height: kDebugMode ? 0.0 : kMinInteractiveDimension,  //? -
+          child: kReleaseMode //? +
+              // child: kDebugMode //? -
+              ? null
+              : Row(
+                  children: [
+                    Icon(Icons.people_alt_outlined),
+                    SizedBox(width: 12.0),
+                    Text('Пользователи'),
+                  ],
+                ),
         ),
         const PopupMenuItem(
           enabled: false,
