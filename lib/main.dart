@@ -19,7 +19,7 @@ class Shopping extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: customThemeSettings,
-      title: titleMaterialApp,
+      title: 'Shopping',
 
       // initialRoute: '/page3',
       routes: <String, WidgetBuilder>{

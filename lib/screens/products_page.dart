@@ -33,7 +33,7 @@ class _ProductsPageState extends State<ProductsPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          appBarProductsPageText,
+          'ТОВАРЫ',
           style: TextStyle(
             color: richColor,
             fontSize: 24.0,
@@ -58,7 +58,7 @@ class _ProductsPageState extends State<ProductsPage> {
                       context: context,
                       products: snapshot.data!,
                       listViewIcon: shoppingCartIcon,
-                      message: productsSnackBarText,
+                      message: 'Добавлен в корзину',
                       onPressed: () {
                         playSound();
                         setState(() {});
@@ -67,14 +67,14 @@ class _ProductsPageState extends State<ProductsPage> {
                     );
                   }
                   if (snapshot.data == null || snapshot.data!.isEmpty) {
-                    return const Text(productsPageMessage);
+                    return const Text('Данные Продуктов не найденны.');
                   }
                   return const CircularProgressIndicator();
                 },
               ),
             ),
             ReusableButton(
-              text: showShoppingCartButtonText,
+              text: 'ПОКАЗАТЬ КОРЗИНУ',
               onPressed: () {
                 // playSound();
                 Navigator.pushNamed(

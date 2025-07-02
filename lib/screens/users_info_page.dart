@@ -114,7 +114,7 @@ class _UsersInfoPageState extends State<UsersInfoPage> {
                     );
                   }
                   if (snapshot.data == null || snapshot.data!.isEmpty) {
-                    return const Text(usersInfoMessage);
+                    return const Text('Данные Пользователей не найденны.');
                   }
                   return const CircularProgressIndicator();
                 },

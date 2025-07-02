@@ -55,7 +55,7 @@ class _AuthPageState extends State<AuthPage> {
       key: _scaffoldKeyAuthForm,
       appBar: AppBar(
         title: const Text(
-          appBarAuthPageText,
+          'ДОБРО ПОЖАЛОВАТЬ',
           style: TextStyle(
             color: richColor,
             fontSize: 24.0,
@@ -90,7 +90,7 @@ class _AuthPageState extends State<AuthPage> {
                 value: 'item1',
                 child: Row(
                   children: [
-                    Text(popupMenuItemText1),
+                    Text('Корзина'),
                   ],
                 ),
               ),
@@ -98,7 +98,7 @@ class _AuthPageState extends State<AuthPage> {
                 value: 'item2',
                 child: Row(
                   children: [
-                    Text(popupMenuItemText2),
+                    Text('Покупки'),
                   ],
                 ),
               ),
@@ -114,7 +114,7 @@ class _AuthPageState extends State<AuthPage> {
                 value: 'item3',
                 child: Row(
                   children: [
-                    Text(popupMenuItemText3),
+                    Text('Товары'),
                   ],
                 ),
               ),
@@ -122,7 +122,7 @@ class _AuthPageState extends State<AuthPage> {
                 value: 'item4',
                 child: Row(
                   children: [
-                    Text(popupMenuItemText4),
+                    Text('Пользователи'),
                   ],
                 ),
               ),
@@ -143,77 +143,6 @@ class _AuthPageState extends State<AuthPage> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  //!---
-                  // child: Center(
-                  //   child: SingleChildScrollView(
-                  //     child: Column(
-                  //       children: [
-                  //         TextFormField(
-                  //           style: Theme.of(context).textTheme.bodySmall,
-                  //           focusNode: _emailFocus,
-                  //           onFieldSubmitted: (_) {
-                  //             _fieldFocusChange(
-                  //                 context, _emailFocus, _passFocus);
-                  //           },
-                  //           controller: _emailController,
-                  //           decoration: InputDecoration(
-                  //             labelText: emailFormFieldLabelText,
-                  //             hintText: emailFormFieldHintText,
-                  //             prefixIcon: const Icon(
-                  //               Icons.mail_outline,
-                  //             ),
-                  //             suffixIcon: GestureDetector(
-                  //               onTap: () {
-                  //                 setState(() {
-                  //                   _emailController.clear();
-                  //                 });
-                  //               },
-                  //               child: _emailController.text.isNotEmpty
-                  //                   ? const Icon(Icons.close_outlined)
-                  //                   : const SizedBox(),
-                  //             ),
-                  //           ),
-                  //           keyboardType: TextInputType.emailAddress,
-                  //           validator: _vaidateEmail,
-                  //           onChanged: (value) {
-                  //             setState(() {});
-                  //           },
-                  //           onSaved: (value) => newUserAuth.email = value,
-                  //         ),
-                  //         const SizedBox(
-                  //           height: 25,
-                  //         ),
-                  //         TextFormField(
-                  //           style: Theme.of(context).textTheme.bodySmall,
-                  //           focusNode: _passFocus,
-                  //           controller: _passController,
-                  //           obscureText: _hidePass,
-                  //           decoration: InputDecoration(
-                  //             labelText: passFormFieldLabelText,
-                  //             hintText: passFormFieldHintTex,
-                  //             prefixIcon: const Icon(
-                  //               Icons.gpp_good_outlined,
-                  //             ),
-                  //             suffixIcon: IconButton(
-                  //               icon: Icon(_hidePass
-                  //                   ? Icons.visibility_off_outlined
-                  //                   : Icons.visibility_outlined),
-                  //               onPressed: () {
-                  //                 setState(() {
-                  //                   _hidePass = !_hidePass;
-                  //                 });
-                  //               },
-                  //             ),
-                  //           ),
-                  //           validator: _validatePassword,
-                  //           onSaved: (value) =>
-                  //               newUserAuth.password = value, //!!!
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-                  //!---
                   child: ListView(
                     children: [
                       const SizedBox(
@@ -227,8 +156,8 @@ class _AuthPageState extends State<AuthPage> {
                         },
                         controller: _emailController,
                         decoration: InputDecoration(
-                          labelText: emailFormFieldLabelText,
-                          hintText: emailFormFieldHintText,
+                          labelText: 'Введите e-mail',
+                          hintText: 'e-mail',
                           prefixIcon: const Icon(
                             Icons.mail_outline,
                           ),
@@ -259,8 +188,8 @@ class _AuthPageState extends State<AuthPage> {
                         controller: _passController,
                         obscureText: _hidePass,
                         decoration: InputDecoration(
-                          labelText: passFormFieldLabelText,
-                          hintText: passFormFieldHintTex,
+                          labelText: 'Введите пароль',
+                          hintText: 'Пароль',
                           prefixIcon: const Icon(
                             Icons.gpp_good_outlined,
                           ),
@@ -284,7 +213,7 @@ class _AuthPageState extends State<AuthPage> {
                 ),
               ),
               ReusableButton(
-                text: authButtonText,
+                text: 'ВОЙТИ',
                 onPressed: () {
                   setState(() {
                     _submitForm();
@@ -292,7 +221,7 @@ class _AuthPageState extends State<AuthPage> {
                 },
               ),
               ReusableButton(
-                text: registerButtonText,
+                text: 'РЕГИСТРАЦИЯ',
                 onPressed: () {
                   setState(() {});
                   _formKey.currentState!.reset();
@@ -320,16 +249,17 @@ class _AuthPageState extends State<AuthPage> {
 
       Navigator.pushNamed(context, '/page3');
     } else {
-      showCustomSnackBar(context, submitFormMessage1);
+      showCustomSnackBar(
+          context, 'Заполните поля корректно или зарегистрируйтесь');
     }
   }
 
   String? _vaidateEmail(String? value) {
     if (value == null || value.isEmpty) {
-      return vaidateEmailText1;
+      return 'Введите свой e-mail';
     } else if (!_emailController.text.contains('@') ||
         !_emailController.text.contains('.')) {
-      return vaidateEmailText2;
+      return 'Введен не e-mail';
     } else {
       return null;
     }
@@ -337,7 +267,7 @@ class _AuthPageState extends State<AuthPage> {
 
   String? _validatePassword(String? value) {
     if (_passController.text.length < 6 || _passController.text.length > 12) {
-      return validatePasswordText1;
+      return 'Длина пароля 6..12 символов';
     } else {
       return null;
     }

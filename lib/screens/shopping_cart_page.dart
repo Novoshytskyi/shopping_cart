@@ -17,7 +17,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          appBarShoppingCartText,
+          'КОРЗИНА',
           style: TextStyle(
             color: richColor,
             fontSize: 24.0,
@@ -37,7 +37,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 context: context,
                 products: productsInShoppingCart,
                 listViewIcon: deleteIcon,
-                message: shoppingCartSnackBarText,
+                message: 'Товар удален',
                 onPressed: () {
                   playSound();
                   setState(() {});
@@ -46,12 +46,12 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
               ),
             ),
             ReusableButton(
-              text: makeOrderButtonText,
+              text: 'СДЕЛАТЬ ЗАКАЗ',
               onPressed: () {
                 if (productsInShoppingCart.isNotEmpty) {
                   showCustomSnackBar(
                     context,
-                    orderCompletedSnackBarText,
+                    'Заказ принят',
                   );
                   productsInShoppingCart.clear();
                   playSound();
