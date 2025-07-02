@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../classes/user_auth.dart';
-import '../constants.dart';
 import '../db/database.dart';
 import '../functions.dart';
 import '../model/user.dart';

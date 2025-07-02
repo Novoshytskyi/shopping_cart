@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../classes/user_auth.dart';
-import '../constants.dart';
 import '../functions.dart';
 import '../theme_settings.dart';
+import '../widgets/popup_menu_button.dart';
 import '../widgets/reusable_button.dart';
 
 class AuthPage extends StatefulWidget {
@@ -62,74 +62,9 @@ class _AuthPageState extends State<AuthPage> {
           ),
         ),
         centerTitle: true,
-        //?---------------------------------------------
-        actions: [
-          PopupMenuButton(
-            onSelected: (value) {
-              switch (value) {
-                case 'item1':
-                  {
-                    Navigator.pushNamed(context, '/page4');
-                  }
-                case 'item2':
-                  {
-                    Navigator.pushNamed(context, '/page4');
-                  }
-                case 'item3':
-                  {
-                    Navigator.pushNamed(context, '/page3');
-                  }
-                case 'item4':
-                  {
-                    Navigator.pushNamed(context, '/page5');
-                  }
-              }
-            },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: 'item1',
-                child: Row(
-                  children: [
-                    Text('Корзина'),
-                  ],
-                ),
-              ),
-              const PopupMenuItem(
-                value: 'item2',
-                child: Row(
-                  children: [
-                    Text('Покупки'),
-                  ],
-                ),
-              ),
-              const PopupMenuItem(
-                value: null,
-                child: Divider(
-                  color: richColor,
-                  thickness: 2.0,
-                  // height: 1.0,
-                ),
-              ),
-              const PopupMenuItem(
-                value: 'item3',
-                child: Row(
-                  children: [
-                    Text('Товары'),
-                  ],
-                ),
-              ),
-              const PopupMenuItem(
-                value: 'item4',
-                child: Row(
-                  children: [
-                    Text('Пользователи'),
-                  ],
-                ),
-              ),
-            ],
-          ),
+        actions: const [
+          PopupMenuButtonNew(),
         ],
-        //?--------------------------------------------------------------
       ),
       body: Form(
         key: _formKey,
