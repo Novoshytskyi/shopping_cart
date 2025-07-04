@@ -72,6 +72,7 @@ class _AuthPageState extends State<AuthPage> {
     return Scaffold(
       key: _scaffoldKeyAuthForm,
       appBar: AppBar(
+        leading: const SizedBox(),
         title: const Text(
           'ДОБРО ПОЖАЛОВАТЬ',
           style: TextStyle(

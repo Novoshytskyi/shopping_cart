@@ -32,6 +32,14 @@ class _ProductsPageState extends State<ProductsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+          ),
+          onPressed: () {
+            Navigator.pushNamed(context, '/page1');
+          },
+        ),
         title: const Text(
           'ТОВАРЫ',
           style: TextStyle(
