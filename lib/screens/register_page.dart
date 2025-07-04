@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import '../classes/user_auth.dart';
 import '../db/database.dart';
 import '../functions.dart';
+import '../model/active_user.dart';
 import '../model/user.dart';
 import '../theme_settings.dart';
+import '../user_secure_storage.dart';
 import '../widgets/reusable_button.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -228,14 +230,21 @@ class _RegisterPageState extends State<RegisterPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      DBProvider.db.insertUser(
-        User(
-          id: null,
-          name: _nameController.text,
-          email: _emailController.text,
-          password: _passController.text,
-        ),
+      //! Добавление нового пользователя в БД
+      User user = User(
+        id: null,
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passController.text,
       );
+      DBProvider.db.insertUser(user);
+      //! Добавление нового пользователя в Secure Storage
+      ActiveUser activeUser = ActiveUser(
+        email: _emailController.text,
+        password: _passController.text,
+      );
+
+      saveToSecureStorage(activeUser);
 
       _nameController.text = '';
       _emailController.text = '';
@@ -249,6 +258,10 @@ class _RegisterPageState extends State<RegisterPage> {
     } else {
       showCustomSnackBar(context, 'Заполните поля корректно');
     }
+  }
+
+  Future saveToSecureStorage(ActiveUser activeUser) async {
+    await UserSecureStorage.setCurrentUserInfo(activeUser);
   }
 
   String? _validateName(String? value) {

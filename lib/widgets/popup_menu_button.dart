@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import '../theme_settings.dart';
 import 'package:flutter/foundation.dart';
+import '../user_secure_storage.dart';
 
 class PopupMenuButtonNew extends StatelessWidget {
-  const PopupMenuButtonNew({super.key});
+  const PopupMenuButtonNew({
+    super.key,
+    required this.onPressedLogOut,
+  });
+
+  final Function onPressedLogOut;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +34,8 @@ class PopupMenuButtonNew extends StatelessWidget {
             }
           case 'item5':
             {
-              Navigator.pushNamed(context, '/page1');
+              UserSecureStorage.logOut();
+              onPressedLogOut();
             }
         }
       },

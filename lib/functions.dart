@@ -27,3 +27,7 @@ void showCustomSnackBar(BuildContext context, String message) {
     ),
   );
 }
+
+void debugColorPrint(String text) {
+  debugPrint('\x1B[31m$text');
+}

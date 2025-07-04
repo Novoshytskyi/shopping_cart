@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../classes/user_auth.dart';
 import '../functions.dart';
 import '../theme_settings.dart';
+import '../user_secure_storage.dart';
 import '../widgets/popup_menu_button.dart';
 import '../widgets/reusable_button.dart';
 
@@ -25,6 +26,8 @@ class _AuthPageState extends State<AuthPage> {
 
   UserAuth newUserAuth = UserAuth();
 
+  bool userIsActive = false;
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -43,11 +46,26 @@ class _AuthPageState extends State<AuthPage> {
     FocusScope.of(context).requestFocus(nextFocus);
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   setState(() {});
-  // }
+  @override
+  void initState() {
+    super.initState();
+    setState(() {});
+    initFromSecureStorage();
+  }
+
+  Future initFromSecureStorage() async {
+    var currentUser = await UserSecureStorage.getCurrentUserInfo();
+
+    final email = currentUser == null ? '' : currentUser.email;
+    final pass = currentUser == null ? '' : currentUser.password;
+
+    userIsActive = currentUser == null ? false : true;
+
+    setState(() {
+      _emailController.text = email;
+      _passController.text = pass;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +80,15 @@ class _AuthPageState extends State<AuthPage> {
           ),
         ),
         centerTitle: true,
-        actions: const [
-          PopupMenuButtonNew(),
+        actions: [
+          PopupMenuButtonNew(
+            onPressedLogOut: () {
+              clearAuthFields();
+              userIsActive = false;
+              setState(() {});
+            },
+            // onPressedLogOut: setState(() {}),
+          ),
         ],
       ),
       body: Form(
@@ -158,14 +183,17 @@ class _AuthPageState extends State<AuthPage> {
               ReusableButton(
                 text: 'РЕГИСТРАЦИЯ',
                 onPressed: () {
-                  setState(() {});
-                  _formKey.currentState!.reset();
-                  _emailController.text = '';
-                  _passController.text = '';
-                  _emailFocus.unfocus();
-                  _passFocus.unfocus();
+                  if (userIsActive) {
+                    showCustomSnackBar(context, 'Вы уже зарегестрированы');
+                  } else {
+                    setState(() {});
+                    _formKey.currentState!.reset();
+                    clearAuthFields();
+                    _emailFocus.unfocus();
+                    _passFocus.unfocus();
 
-                  Navigator.pushNamed(context, '/page2');
+                    Navigator.pushNamed(context, '/page2');
+                  }
                 },
               ),
             ],
@@ -175,12 +203,26 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
+  void clearAuthFields() {
+    _emailController.text = '';
+    _passController.text = '';
+  }
+
   void _submitForm() {
-    if (_formKey.currentState!.validate()) {
+    if (userIsActive) {
+      _emailController.text = '';
+      _passController.text = '';
+      Navigator.pushNamed(context, '/page3');
+    } else if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
+      debugColorPrint('email: ${_emailController.text}');
+      debugColorPrint('pass: ${_passController.text}');
 
       _emailController.text = '';
       _passController.text = '';
+
+      playSound();
 
       Navigator.pushNamed(context, '/page3');
     } else {
