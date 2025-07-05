@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_cart/model/user.dart';
 import '../classes/user_auth.dart';
 import '../db/database.dart';
 import '../functions.dart';
@@ -221,10 +222,18 @@ class _AuthPageState extends State<AuthPage> {
       debugColorPrint('email: ${_emailController.text}');
       debugColorPrint('pass: ${_passController.text}');
 
-      // bool passIsAuth = false;
+      // Найденный по email пользователь становитвя активным (в SecureStorage)
+      Future saveFoundUserToSecureStorage() async {
+        User newUser = await DBProvider.db
+            .getUserByEmail(_emailController.text.toString());
+        await UserSecureStorage.setCurrentUserInfo(newUser);
+      }
+
+      // Выполняется при авторизации (email, password)
       void doIfPassIsAuth() {
         showCustomSnackBar(context, 'Вход выполнен');
-        //TODO: ПОЛУЧИТЬ ЮЗЕРА И СОХРАНИТЬ В SECUTRE STORAGE.
+
+        saveFoundUserToSecureStorage();
 
         _emailController.text = '';
         _passController.text = '';
@@ -239,8 +248,8 @@ class _AuthPageState extends State<AuthPage> {
       }
 
       Future<void> passAuth() async {
-        var passFromDb =
-            await DBProvider.db.getPassByEmail(_emailController.text);
+        var passFromDb = await DBProvider.db
+            .getPassByEmail(_emailController.text.toString());
         debugColorPrint('passFromDb: $passFromDb');
         if (passFromDb == _passController.text.toString()) {
           doIfPassIsAuth();

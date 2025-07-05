@@ -158,25 +158,24 @@ class DBProvider {
   Future<String> getPassByEmail(String email) async {
     Database? db = await database;
     String pass = '';
-    //TODO: Написать запрос!
-    final res = await db!
-        .rawQuery("SELECT password FROM Users WHERE email='$email';"); //
-
-    // if (res.isNotEmpty) {
-    //   debugColorPrint(res[0]['password'].toString());
-    // }
-    // if (res.isEmpty) {
-    //   debugColorPrint(res.toString());
-    //   debugColorPrint('${res.runtimeType}');
-    // }
+    final res =
+        await db!.rawQuery("SELECT password FROM Users WHERE email='$email';");
     try {
       pass = res[0]['password'].toString();
     } catch (e) {
       pass = '';
     }
-
-    // return res[0]['password'].toString();
     return pass;
+  }
+
+  // Получение пользователя по введенному email.
+  Future<User> getUserByEmail(String email) async {
+    Database? db = await database;
+
+    final res =
+        await db!.rawQuery("SELECT * FROM Users WHERE email = '$email' ; ");
+
+    return User.fromMap(res[0]);
   }
 
   // Создание таблицы ShoppingCart (для нового пользователя)
@@ -202,8 +201,6 @@ class DBProvider {
   }
 
 // _createUsersTables
-
-  // //? Запоминание id (+...) нового пользователя в SecureStorage.
 
   // Добавление товара из таблицы Products в таблицу ShoppingCart
 
