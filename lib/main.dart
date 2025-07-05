@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_cart/screens/history_page.dart';
 import 'package:shopping_cart/screens/users_info_page.dart';
 import 'screens/auth_page.dart';
 import 'screens/products_page.dart';
@@ -27,6 +28,7 @@ class Shopping extends StatelessWidget {
         '/page3': (context) => const ProductsPage(),
         '/page4': (context) => const ShoppingCartPage(),
         '/page5': (context) => const UsersInfoPage(),
+        '/page6': (context) => const HistoryPage(),
       },
 
       home: const AuthPage(),

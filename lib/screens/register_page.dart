@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../classes/user_auth.dart';
 import '../db/database.dart';
 import '../functions.dart';
-import '../model/active_user.dart';
 import '../model/user.dart';
 import '../theme_settings.dart';
 import '../user_secure_storage.dart';
@@ -110,7 +109,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                 : const SizedBox(),
                           ),
                         ),
-                        keyboardType: TextInputType.emailAddress,
                         validator: _validateName,
                         onChanged: (value) {
                           setState(() {});
@@ -238,13 +236,12 @@ class _RegisterPageState extends State<RegisterPage> {
         password: _passController.text,
       );
       DBProvider.db.insertUser(user);
-      //! Добавление нового пользователя в Secure Storage
-      ActiveUser activeUser = ActiveUser(
-        email: _emailController.text,
-        password: _passController.text,
-      );
 
-      saveToSecureStorage(activeUser);
+      //??? Получение нового пользователя из БД с id
+      // Future<int> newUserId = DBProvider.db.getNewUserId(); //todo:пока оставить!
+
+      //! Добавление нового пользователя в Secure Storage
+      saveNewUserToSecureStorage();
 
       _nameController.text = '';
       _emailController.text = '';
@@ -260,8 +257,9 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  Future saveToSecureStorage(ActiveUser activeUser) async {
-    await UserSecureStorage.setCurrentUserInfo(activeUser);
+  Future saveNewUserToSecureStorage() async {
+    User newUser = await DBProvider.db.getNewUser();
+    await UserSecureStorage.setCurrentUserInfo(newUser);
   }
 
   String? _validateName(String? value) {

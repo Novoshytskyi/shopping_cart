@@ -22,7 +22,7 @@ class PopupMenuButtonNew extends StatelessWidget {
             }
           case 'item2':
             {
-              Navigator.pushNamed(context, '/page4');
+              Navigator.pushNamed(context, '/page6');
             }
           case 'item3':
             {

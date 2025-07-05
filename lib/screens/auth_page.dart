@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../classes/user_auth.dart';
+import '../db/database.dart';
 import '../functions.dart';
 import '../theme_settings.dart';
 import '../user_secure_storage.dart';
@@ -220,12 +221,35 @@ class _AuthPageState extends State<AuthPage> {
       debugColorPrint('email: ${_emailController.text}');
       debugColorPrint('pass: ${_passController.text}');
 
-      _emailController.text = '';
-      _passController.text = '';
+      // bool passIsAuth = false;
+      void doIfPassIsAuth() {
+        showCustomSnackBar(context, 'Вход выполнен');
+        //TODO: ПОЛУЧИТЬ ЮЗЕРА И СОХРАНИТЬ В SECUTRE STORAGE.
 
-      playSound();
+        _emailController.text = '';
+        _passController.text = '';
 
-      Navigator.pushNamed(context, '/page3');
+        playSound();
+
+        Navigator.pushNamed(context, '/page3');
+      }
+
+      void doIfPassNotAuth() {
+        showCustomSnackBar(context, 'Пароль не подходит\n');
+      }
+
+      Future<void> passAuth() async {
+        var passFromDb =
+            await DBProvider.db.getPassByEmail(_emailController.text);
+        debugColorPrint('passFromDb: $passFromDb');
+        if (passFromDb == _passController.text.toString()) {
+          doIfPassIsAuth();
+        } else {
+          doIfPassNotAuth();
+        }
+      }
+
+      passAuth();
     } else {
       showCustomSnackBar(
           context, 'Заполните поля корректно или зарегистрируйтесь');

@@ -1,9 +1,8 @@
 import 'dart:io';
-// import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shopping_cart/model/product.dart';
-// import 'package:sqflite/sqlite_api.dart';
 import 'package:sqflite/sqflite.dart';
+import '../functions.dart';
 import '../model/user.dart';
 
 class DBProvider {
@@ -11,12 +10,6 @@ class DBProvider {
   static final DBProvider db = DBProvider._();
 
   static Database? _database;
-
-  String usersTable = 'Users';
-  String columnId = 'id';
-  String columnName = 'name';
-  String columnEmail = 'email';
-  String columnPassword = 'password';
 
   Future<Database?> get database async {
     if (_database != null) {
@@ -31,6 +24,7 @@ class DBProvider {
     Directory dir = await getApplicationDocumentsDirectory();
 
     String path = '${dir.path}ShoppingDB.db';
+    // debugColorPrint('path: $path');
 
     return await openDatabase(
       path,
@@ -40,8 +34,9 @@ class DBProvider {
   }
 
   void _createDb(Database db, int version) async {
+    // Создание таблицы Продуктов
     await db.execute('''
-      CREATE TABLE Products (
+      CREATE TABLE IF NOT EXISTS Products (
       id INTEGER  PRIMARY KEY AUTOINCREMENT,
       name TEXT    NOT NULL,
       price TEXT   NOT NULL,
@@ -49,21 +44,23 @@ class DBProvider {
       );
     ''');
 
+    // Наполнение таблицы Продуктов
     await db.execute('''
       INSERT INTO Products (name, price, image)
       VALUES
-      ('Apple MacBook Air M4', '1000', 'images/air-m4-starlight.jpg'),
-      ('Apple MacBook Air M4', '1000', 'images/air-m4-silver.jpg'),
-      ('Apple MacBook Air M4', '1000', 'images/air-m4-sky-blue.jpg'),
-      ('Apple MacBook Air M4', '1000', 'images/air-m4-midnight.jpg'),
-      ('Apple MacBook Air M1',  '800', 'images/air-m1-space-gray.jpg'),
-      ('Apple MacBook Air M1', '800',  'images/air-m1-gold.jpg'),
-      ('Apple MacBook Pro M4', '1600', 'images/pro-m4-silver.jpg'),
-      ('Apple MacBook Pro M4', '1600', 'images/pro-m4-space-black.jpg'),
-      ('Apple MacBook Pro M3', '1300', 'images/pro-m2-pro-silver.jpg'),
-      ('Apple MacBook Pro M3', '1300', 'images/pro-m2-space-gray.jpg');
+      ('MacBook Air M4 starlight', '1000', 'images/air-m4-starlight.jpg'),
+      ('MacBook Air M4 silver', '1000', 'images/air-m4-silver.jpg'),
+      ('MacBook Air M4 blue', '1000', 'images/air-m4-sky-blue.jpg'),
+      ('MacBook Air M4 midnight', '1000', 'images/air-m4-midnight.jpg'),
+      ('MacBook Air M1 gray',  '800', 'images/air-m1-space-gray.jpg'),
+      ('MacBook Air M1 gold', '800',  'images/air-m1-gold.jpg'),
+      ('MacBook Pro M4 silver', '1600', 'images/pro-m4-silver.jpg'),
+      ('MacBook Pro M4 black', '1600', 'images/pro-m4-space-black.jpg'),
+      ('MacBook Pro M3 silver', '1300', 'images/pro-m2-pro-silver.jpg'),
+      ('MacBook Pro M3 gray', '1300', 'images/pro-m2-space-gray.jpg');
     ''');
 
+    // Создание таблицы Пользователей
     await db.execute('''
       CREATE TABLE IF NOT EXISTS Users(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -74,12 +71,12 @@ class DBProvider {
     ''');
   }
 
-  //-----------------------------------------------------
+  //?==========================================================================
 
   // Read Users
   Future<List<User>> getUsers() async {
     Database? db = await database;
-    final List<Map<String, dynamic>> usersMapList = await db!.query(usersTable);
+    final List<Map<String, dynamic>> usersMapList = await db!.query("Users");
     final List<User> usersList = [];
     for (var userMap in usersMapList) {
       usersList.add(
@@ -92,61 +89,39 @@ class DBProvider {
   // Insert User
   Future<User> insertUser(User user) async {
     Database? db = await database;
-    user.id = (await db?.insert(usersTable, user.toMap()))!;
+    user.id = (await db?.insert("Users", user.toMap()))!;
     return user;
   }
 
-  //Update User
+  // Update User
   Future<int?> updateUser(User user) async {
     Database? db = await database;
     return await db?.update(
-      usersTable,
+      'Users',
       user.toMap(),
-      where: '$columnId = ?',
+      where: '"id" = ?',
       whereArgs: [user.id],
     );
   }
 
   // Delete User
+  // todo: удадить таблицы этого пользователя ShoppingCart и History
   Future<int?> deleteUser(int id) async {
     Database? db = await database;
     return await db?.delete(
-      usersTable,
-      where: '$columnId = ?',
+      'Users',
+      where: '"id" = ?',
       whereArgs: [id],
     );
   }
 
-  //? create Table Products
-  // void _createTableProducts(Database db, int version) async {
-  //   await db.execute('''
-  //     CREATE TABLE IF NOT EXISTS Products (
-  //     id INTEGER  PRIMARY KEY,
-  //     name TEXT    NOT NULL,
-  //     price TEXT   NOT NULL,
-  //     image TEXT  NOT NULL
-  //       );
-
-  //     INSERT INTO Products (name, price, image)
-  //     VALUES
-  //     ('Apple MacBook Air M4', '1000', 'images/air-m4-starlight.jpg'),
-  //     ('Apple MacBook Air M4', '1000', 'images/air-m4-silver.jpg'),
-  //     ('Apple MacBook Air M4', '1000', 'images/air-m4-sky-blue.jpg'),
-  //     ('Apple MacBook Air M4', '1000', 'images/air-m4-midnight.jpg'),
-  //     ('Apple MacBook Air M1',  '800', 'images/air-m1-space-gray.jpg'),
-  //     ('Apple MacBook Air M1', '800',  'images/air-m1-gold.jpg'),
-  //     ('Apple MacBook Pro M4', '1600', 'images/pro-m4-silver.jpg'),
-  //     ('Apple MacBook Pro M4', '1600', 'images/pro-m4-space-black.jpg'),
-  //     ('Apple MacBook Pro M3', '1300', 'images/pro-m2-pro-silver.jpg'),
-  //     ('Apple MacBook Pro M3', '1300', 'images/pro-m2-space-gray.jpg');
-  //   ''');
-  // }
+  //?==========================================================================
 
   // Read Table Products
   Future<List<Product>> getProducts() async {
     Database? db = await database;
     final List<Map<String, dynamic>> productsMapList =
-        await db!.query('Products');
+        await db!.query("Products");
     final List<Product> productsList = [];
     for (var productMap in productsMapList) {
       productsList.add(
@@ -155,4 +130,87 @@ class DBProvider {
     }
     return productsList;
   }
+
+  //?==========================================================================
+
+  //??? Получение нового пользователя из БД с id
+
+  // После регистрации нового пользователя:
+
+  // Получение id только зарегестрированного пользователя
+  Future<int> getNewUserId() async {
+    Database? db = await database;
+    var res = await db!.rawQuery("SELECT MAX(id) FROM Users;");
+    debugColorPrint(res[0]['MAX(id)'].toString());
+    return int.parse(res[0]['MAX(id)'].toString());
+  }
+
+  // Получение только зарегестрированного пользователя
+  Future<User> getNewUser() async {
+    Database? db = await database;
+    final List<Map<String, dynamic>> res =
+        await db!.rawQuery("SELECT * FROM Users ORDER BY id DESC LIMIT 1;");
+
+    return User.fromMap(res[0]);
+  }
+
+  // Получение пароля по введенному email.
+  Future<String> getPassByEmail(String email) async {
+    Database? db = await database;
+    String pass = '';
+    //TODO: Написать запрос!
+    final res = await db!
+        .rawQuery("SELECT password FROM Users WHERE email='$email';"); //
+
+    // if (res.isNotEmpty) {
+    //   debugColorPrint(res[0]['password'].toString());
+    // }
+    // if (res.isEmpty) {
+    //   debugColorPrint(res.toString());
+    //   debugColorPrint('${res.runtimeType}');
+    // }
+    try {
+      pass = res[0]['password'].toString();
+    } catch (e) {
+      pass = '';
+    }
+
+    // return res[0]['password'].toString();
+    return pass;
+  }
+
+  // Создание таблицы ShoppingCart (для нового пользователя)
+  Future<void> createTableShoppingCart(int userId) async {
+    Database? db = await database;
+    await db?.execute('''
+      CREATE TABLE IF NOT EXISTS ShoppingCart_User_$userId (
+      id INTEGER  PRIMARY KEY AUTOINCREMENT,
+      productId INTEGER NOT NULL,
+      );
+    ''');
+  }
+
+  // Создание таблицы History (для нового пользователя)
+  Future<void> createTableHistory(int userId) async {
+    Database? db = await database;
+    await db?.execute('''
+      CREATE TABLE IF NOT EXISTS ShoppingCart_User_$userId (
+      id INTEGER  PRIMARY KEY AUTOINCREMENT,
+      productId INTEGER NOT NULL,
+      );
+    ''');
+  }
+
+// _createUsersTables
+
+  // //? Запоминание id (+...) нового пользователя в SecureStorage.
+
+  // Добавление товара из таблицы Products в таблицу ShoppingCart
+
+  // Оформление заказа:
+  // - перенос товаров из ShoppingCart в History с описанием заказанных товаров
+  //     и расчетом суммы всего заказа;
+  // - очистка содержимого таблицы ShoppingCart.
+
+  //?==========================================================================
 }
