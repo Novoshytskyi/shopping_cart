@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_cart/model/user.dart';
 import '../theme_settings.dart';
 import 'package:flutter/foundation.dart';
 import '../user_secure_storage.dart';
@@ -7,13 +8,20 @@ class PopupMenuButtonNew extends StatelessWidget {
   const PopupMenuButtonNew({
     super.key,
     required this.onPressedLogOut,
+    required this.userName,
   });
 
   final Function onPressedLogOut;
+  final String? userName;
 
   @override
   Widget build(BuildContext context) {
+    bool userIsActive = false;
+
     return PopupMenuButton(
+      onOpened: () {
+        userIsActive = userName != null;
+      },
       onSelected: (value) {
         switch (value) {
           case 'item1':
@@ -40,6 +48,21 @@ class PopupMenuButtonNew extends StatelessWidget {
         }
       },
       itemBuilder: (context) => [
+        PopupMenuItem(
+          // enabled: false,
+          value: null,
+          height: userIsActive ? kMinInteractiveDimension : 0.0,
+          child: userIsActive
+              ? Row(
+                  children: [
+                    const Icon(Icons.person_outlined),
+                    const SizedBox(width: 12.0),
+                    Text(userName.toString().toUpperCase()),
+                  ],
+                )
+              : const SizedBox(),
+        ),
+
         const PopupMenuItem(
           value: 'item1',
           child: Row(

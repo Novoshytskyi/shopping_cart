@@ -3,6 +3,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shopping_cart/model/product.dart';
 import 'package:sqflite/sqflite.dart';
 import '../functions.dart';
+import '../model/shopping_cart.dart';
 import '../model/user.dart';
 
 class DBProvider {
@@ -184,7 +185,7 @@ class DBProvider {
     await db?.execute('''
       CREATE TABLE IF NOT EXISTS ShoppingCart_User_$userId (
       id INTEGER  PRIMARY KEY AUTOINCREMENT,
-      productId INTEGER NOT NULL,
+      productId INTEGER NOT NULL
       );
     ''');
   }
@@ -193,16 +194,52 @@ class DBProvider {
   Future<void> createTableHistory(int userId) async {
     Database? db = await database;
     await db?.execute('''
-      CREATE TABLE IF NOT EXISTS ShoppingCart_User_$userId (
+      CREATE TABLE IF NOT EXISTS History_User_$userId (
       id INTEGER  PRIMARY KEY AUTOINCREMENT,
-      productId INTEGER NOT NULL,
+      productId INTEGER NOT NULL
       );
     ''');
   }
 
 // _createUsersTables
 
-  // Добавление товара из таблицы Products в таблицу ShoppingCart
+  // Добавление товара из таблицы Products в таблицу ShoppingCart пользователя
+  Future<ShoppingCart> insertProductToShoppingCart({
+    required ShoppingCart shoppingCart,
+    required int userId,
+  }) async {
+    Database? db = await database;
+    shoppingCart.id = (await db?.insert(
+      "ShoppingCart_User_$userId",
+      shoppingCart.toMap(),
+    ))!;
+    return shoppingCart;
+  }
+
+  // Удаление товара из таблицы ShoppingCart пользователя
+  Future<int?> deleteProduct({
+    required int id,
+    required int userId,
+  }) async {
+    Database? db = await database;
+    return await db?.delete(
+      "ShoppingCart_User_$userId",
+      where: '"id" = ?',
+      whereArgs: [id],
+    );
+  }
+
+  // Future<List<User>> getShoppingCart() async {
+  //   Database? db = await database;
+  //   final List<Map<String, dynamic>> usersMapList = await db!.query("Users");
+  //   final List<User> usersList = [];
+  //   for (var userMap in usersMapList) {
+  //     usersList.add(
+  //       User.fromMap(userMap),
+  //     );
+  //   }
+  //   return usersList;
+  // }
 
   // Оформление заказа:
   // - перенос товаров из ShoppingCart в History с описанием заказанных товаров

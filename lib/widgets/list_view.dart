@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_cart/functions.dart';
+import '../db/database.dart';
 import '../model/product.dart';
 import '../constants.dart';
+import '../user_secure_storage.dart';
 import 'product_card.dart';
 
 enum ActionIconType {
@@ -36,12 +39,21 @@ class NewListView extends StatelessWidget {
         image: products[index].image,
         iconRight: listViewIcon,
         message: message,
-        onPressed: () {
+        onPressed: () async {
+          int? currentUserId = await UserSecureStorage.getCurrentUserId();
+          debugColorPrint('currentUserId: $currentUserId'); //todo: Потом убрать
+
           if (action == ActionIconType.add) {
             productsInShoppingCart.add(products[index]);
+            //TODO: Добавление в таблицу ShoppingCart.
+            // DBProvider.db.insertProductToShoppingCart(
+            //   shoppingCart: shoppingCart,
+            //   userId: userId,
+            // );
           }
           if (action == ActionIconType.remove) {
             productsInShoppingCart.remove(products[index]);
+            //TODO: Удаление из таблицы ShoppingCart.
           }
           onPressed!();
         },

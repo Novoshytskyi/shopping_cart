@@ -18,5 +18,11 @@ class UserSecureStorage {
     return value == null ? null : User.fromMap(json.decode(value));
   }
 
+  static Future<int?> getCurrentUserId() async {
+    final value = await _storage.read(key: _keyUserInfo);
+
+    return value == null ? null : User.fromMap(json.decode(value)).id;
+  }
+
   static Future logOut() async => await _storage.deleteAll();
 }

@@ -55,7 +55,14 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                   );
                   productsInShoppingCart.clear();
                   playSound();
+
                   setState(() {});
+                } else {
+                  showCustomSnackBar(
+                    context,
+                    'Коризна пуста',
+                  );
+                  playSound();
                 }
               },
             ),

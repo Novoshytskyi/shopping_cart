@@ -26,9 +26,16 @@ class _AuthPageState extends State<AuthPage> {
 
   bool _hidePass = true;
 
-  UserAuth newUserAuth = UserAuth();
+  // UserAuth newUserAuth = UserAuth();
 
   bool userIsActive = false;
+
+  String? _userName;
+
+// Future<String?> currentUserName() async {
+//     User? currentUser = await UserSecureStorage.getCurrentUserInfo();
+//     return currentUser?.name;
+//   }
 
   @override
   void dispose() {
@@ -61,6 +68,8 @@ class _AuthPageState extends State<AuthPage> {
     final email = currentUser == null ? '' : currentUser.email;
     final pass = currentUser == null ? '' : currentUser.password;
 
+    _userName = currentUser == null ? '' : currentUser.name;
+
     userIsActive = currentUser == null ? false : true;
 
     setState(() {
@@ -88,8 +97,11 @@ class _AuthPageState extends State<AuthPage> {
             onPressedLogOut: () {
               clearAuthFields();
               userIsActive = false;
-              setState(() {});
+              setState(() {
+                _userName = null;
+              });
             },
+            userName: _userName,
             // onPressedLogOut: setState(() {}),
           ),
         ],
@@ -140,7 +152,7 @@ class _AuthPageState extends State<AuthPage> {
                         onChanged: (value) {
                           setState(() {});
                         },
-                        onSaved: (value) => newUserAuth.email = value,
+                        // onSaved: (value) => newUserAuth.email = value,
                       ),
                       const SizedBox(
                         height: 25,
@@ -168,7 +180,7 @@ class _AuthPageState extends State<AuthPage> {
                           ),
                         ),
                         validator: _validatePassword,
-                        onSaved: (value) => newUserAuth.password = value, //!!!
+                        // onSaved: (value) => newUserAuth.password = value, //!!!
                       ),
                     ],
                   ),
@@ -250,7 +262,9 @@ class _AuthPageState extends State<AuthPage> {
       Future<void> passAuth() async {
         var passFromDb = await DBProvider.db
             .getPassByEmail(_emailController.text.toString());
+
         debugColorPrint('passFromDb: $passFromDb');
+
         if (passFromDb == _passController.text.toString()) {
           doIfPassIsAuth();
         } else {

@@ -228,7 +228,7 @@ class _RegisterPageState extends State<RegisterPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      //! Добавление нового пользователя в БД
+      // Добавление нового пользователя в БД
       User user = User(
         id: null,
         name: _nameController.text,
@@ -237,11 +237,11 @@ class _RegisterPageState extends State<RegisterPage> {
       );
       DBProvider.db.insertUser(user);
 
-      //??? Получение нового пользователя из БД с id
-      // Future<int> newUserId = DBProvider.db.getNewUserId(); //todo:пока оставить!
-
-      //! Добавление нового пользователя в Secure Storage
+      // Добавление нового пользователя в Secure Storage
       saveNewUserToSecureStorage();
+
+      //TODO: Создание таблиц ShoppingCart и History (для нового пользователя)
+      createTablesForNewUser();
 
       _nameController.text = '';
       _emailController.text = '';
@@ -257,9 +257,18 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+  // Извлечение нового пользователя с id из БД и сохр. в SecureStorage
   Future saveNewUserToSecureStorage() async {
     User newUser = await DBProvider.db.getNewUser();
     await UserSecureStorage.setCurrentUserInfo(newUser);
+  }
+
+  Future createTablesForNewUser() async {
+    User newUser = await DBProvider.db.getNewUser();
+    //TODO: Создание таблицы ShoppingCart (для нового пользователя)
+    DBProvider.db.createTableShoppingCart(newUser.id as int);
+    //TODO: Создание таблицы History (для нового пользователя)
+    // DBProvider.db.createTableHistory(newUser.id as int);
   }
 
   String? _validateName(String? value) {
