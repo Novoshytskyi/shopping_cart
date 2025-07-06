@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_cart/model/user.dart';
-import '../classes/user_auth.dart';
 import '../db/database.dart';
 import '../functions.dart';
 import '../theme_settings.dart';
@@ -25,17 +24,7 @@ class _AuthPageState extends State<AuthPage> {
   final _passFocus = FocusNode();
 
   bool _hidePass = true;
-
-  // UserAuth newUserAuth = UserAuth();
-
   bool userIsActive = false;
-
-  String? _userName;
-
-// Future<String?> currentUserName() async {
-//     User? currentUser = await UserSecureStorage.getCurrentUserInfo();
-//     return currentUser?.name;
-//   }
 
   @override
   void dispose() {
@@ -68,8 +57,6 @@ class _AuthPageState extends State<AuthPage> {
     final email = currentUser == null ? '' : currentUser.email;
     final pass = currentUser == null ? '' : currentUser.password;
 
-    _userName = currentUser == null ? '' : currentUser.name;
-
     userIsActive = currentUser == null ? false : true;
 
     setState(() {
@@ -97,12 +84,8 @@ class _AuthPageState extends State<AuthPage> {
             onPressedLogOut: () {
               clearAuthFields();
               userIsActive = false;
-              setState(() {
-                _userName = null;
-              });
+              setState(() {});
             },
-            userName: _userName,
-            // onPressedLogOut: setState(() {}),
           ),
         ],
       ),
@@ -152,7 +135,6 @@ class _AuthPageState extends State<AuthPage> {
                         onChanged: (value) {
                           setState(() {});
                         },
-                        // onSaved: (value) => newUserAuth.email = value,
                       ),
                       const SizedBox(
                         height: 25,
@@ -180,11 +162,9 @@ class _AuthPageState extends State<AuthPage> {
                           ),
                         ),
                         validator: _validatePassword,
-                        // onSaved: (value) => newUserAuth.password = value, //!!!
                       ),
                     ],
                   ),
-                  //!---
                 ),
               ),
               ReusableButton(

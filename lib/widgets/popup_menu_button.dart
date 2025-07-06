@@ -8,18 +8,23 @@ class PopupMenuButtonNew extends StatelessWidget {
   const PopupMenuButtonNew({
     super.key,
     required this.onPressedLogOut,
-    required this.userName,
   });
 
   final Function onPressedLogOut;
-  final String? userName;
 
   @override
   Widget build(BuildContext context) {
     bool userIsActive = false;
+    String? userName;
+
+    Future<String?> currentUserName() async {
+      User? currentUser = await UserSecureStorage.getCurrentUserInfo();
+      return currentUser?.name;
+    }
 
     return PopupMenuButton(
-      onOpened: () {
+      onOpened: () async {
+        userName = await currentUserName();
         userIsActive = userName != null;
       },
       onSelected: (value) {
@@ -49,7 +54,6 @@ class PopupMenuButtonNew extends StatelessWidget {
       },
       itemBuilder: (context) => [
         PopupMenuItem(
-          // enabled: false,
           value: null,
           height: userIsActive ? kMinInteractiveDimension : 0.0,
           child: userIsActive
@@ -63,34 +67,43 @@ class PopupMenuButtonNew extends StatelessWidget {
               : const SizedBox(),
         ),
 
-        const PopupMenuItem(
+        PopupMenuItem(
           value: 'item1',
-          child: Row(
-            children: [
-              Icon(Icons.shopping_cart_outlined),
-              SizedBox(width: 12.0),
-              Text('Корзина'),
-            ],
-          ),
+          height: userIsActive ? kMinInteractiveDimension : 0.0,
+          child: userIsActive
+              ? const Row(
+                  children: [
+                    Icon(Icons.shopping_cart_outlined),
+                    SizedBox(width: 12.0),
+                    Text('Корзина'),
+                  ],
+                )
+              : const SizedBox(),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           value: 'item2',
-          child: Row(
-            children: [
-              Icon(Icons.shopping_cart_checkout_outlined),
-              SizedBox(width: 12.0),
-              Text('Покупки'),
-            ],
-          ),
+          height: userIsActive ? kMinInteractiveDimension : 0.0,
+          child: userIsActive
+              ? const Row(
+                  children: [
+                    Icon(Icons.shopping_cart_checkout_outlined),
+                    SizedBox(width: 12.0),
+                    Text('Покупки'),
+                  ],
+                )
+              : const SizedBox(),
         ),
-        const PopupMenuItem(
+        PopupMenuItem(
           enabled: false,
-          height: 2.0,
+          // height: 2.0, //??
+          height: userIsActive ? 2.0 : 0.0,
           value: null,
-          child: Divider(
-            color: richColor,
-            thickness: 2.0,
-          ),
+          child: userIsActive
+              ? const Divider(
+                  color: richColor,
+                  thickness: 2.0,
+                )
+              : const SizedBox(),
         ),
         const PopupMenuItem(
           value: 'item3',

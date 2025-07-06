@@ -1,4 +1,4 @@
-class UserAuth {
-  String? email;
-  String? password;
-}
+// class UserAuth {
+//   String? email;
+//   String? password;
+// }

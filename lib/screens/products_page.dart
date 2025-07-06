@@ -61,7 +61,6 @@ class _ProductsPageState extends State<ProductsPage> {
                 future: _productsList,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    // return generateList(snapshot.data!);
                     return NewListView(
                       context: context,
                       products: snapshot.data!,

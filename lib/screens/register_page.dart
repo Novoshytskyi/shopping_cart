@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../classes/user_auth.dart';
 import '../db/database.dart';
 import '../functions.dart';
 import '../model/user.dart';
@@ -28,8 +27,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final _passConfirmFocus = FocusNode();
 
   bool _hidePass = true;
-
-  UserAuth newUserAuth = UserAuth();
 
   @override
   void dispose() {
@@ -113,7 +110,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         onChanged: (value) {
                           setState(() {});
                         },
-                        onSaved: (value) => newUserAuth.email = value,
                       ),
                       const SizedBox(
                         height: 25,
@@ -147,7 +143,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         onChanged: (value) {
                           setState(() {});
                         },
-                        onSaved: (value) => newUserAuth.email = value,
                       ),
                       const SizedBox(
                         height: 25,
@@ -181,7 +176,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           ),
                         ),
                         validator: _validatePassword,
-                        onSaved: (value) => newUserAuth.password = value, //!!!
                       ),
                       const SizedBox(
                         height: 25,
@@ -197,7 +191,6 @@ class _RegisterPageState extends State<RegisterPage> {
                           filled: true,
                           prefixIcon: Icon(Icons.gpp_maybe_outlined),
                         ),
-                        // validator: _validatePassword,
                         validator: _validatePasswordConfirm,
                       ),
                       const SizedBox(
@@ -205,7 +198,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ],
                   ),
-                  //!---
                 ),
               ),
               ReusableButton(
