@@ -26,6 +26,8 @@ class _AuthPageState extends State<AuthPage> {
   bool _hidePass = true;
   bool userIsActive = false;
 
+  String? name;
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -57,6 +59,8 @@ class _AuthPageState extends State<AuthPage> {
     final email = currentUser == null ? '' : currentUser.email;
     final pass = currentUser == null ? '' : currentUser.password;
 
+    name = currentUser == null ? '' : currentUser.name;
+
     userIsActive = currentUser == null ? false : true;
 
     setState(() {
@@ -84,8 +88,11 @@ class _AuthPageState extends State<AuthPage> {
             onPressedLogOut: () {
               clearAuthFields();
               userIsActive = false;
-              setState(() {});
+              setState(() {
+                name = '';
+              });
             },
+            userName: name,
           ),
         ],
       ),

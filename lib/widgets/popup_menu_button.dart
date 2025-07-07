@@ -7,26 +7,28 @@ import '../user_secure_storage.dart';
 class PopupMenuButtonNew extends StatelessWidget {
   const PopupMenuButtonNew({
     super.key,
+    required this.userName, //? ///////
     required this.onPressedLogOut,
   });
 
   final Function onPressedLogOut;
+  final String? userName; //? ///////
 
   @override
   Widget build(BuildContext context) {
-    bool userIsActive = false;
-    String? userName;
+    // bool userIsActive = false;
+    // String? userName; //? ///////
 
-    Future<String?> currentUserName() async {
-      User? currentUser = await UserSecureStorage.getCurrentUserInfo();
-      return currentUser?.name;
-    }
+    // Future<String?> currentUserName() async {
+    //   User? currentUser = await UserSecureStorage.getCurrentUserInfo();
+    //   return currentUser?.name;
+    // }
 
     return PopupMenuButton(
-      onOpened: () async {
-        userName = await currentUserName();
-        userIsActive = userName != null;
-      },
+      // onOpened: () async {
+      //   userName = await currentUserName();
+      //   userIsActive = userName != null;
+      // },
       onSelected: (value) {
         switch (value) {
           case 'item1':
@@ -55,8 +57,8 @@ class PopupMenuButtonNew extends StatelessWidget {
       itemBuilder: (context) => [
         PopupMenuItem(
           value: null,
-          height: userIsActive ? kMinInteractiveDimension : 0.0,
-          child: userIsActive
+          height: userName != '' ? kMinInteractiveDimension : 0.0,
+          child: userName != ''
               ? Row(
                   children: [
                     const Icon(Icons.person_outlined),
@@ -69,8 +71,8 @@ class PopupMenuButtonNew extends StatelessWidget {
 
         PopupMenuItem(
           value: 'item1',
-          height: userIsActive ? kMinInteractiveDimension : 0.0,
-          child: userIsActive
+          height: userName != '' ? kMinInteractiveDimension : 0.0,
+          child: userName != ''
               ? const Row(
                   children: [
                     Icon(Icons.shopping_cart_outlined),
@@ -82,8 +84,8 @@ class PopupMenuButtonNew extends StatelessWidget {
         ),
         PopupMenuItem(
           value: 'item2',
-          height: userIsActive ? kMinInteractiveDimension : 0.0,
-          child: userIsActive
+          height: userName != '' ? kMinInteractiveDimension : 0.0,
+          child: userName != ''
               ? const Row(
                   children: [
                     Icon(Icons.shopping_cart_checkout_outlined),
@@ -95,10 +97,9 @@ class PopupMenuButtonNew extends StatelessWidget {
         ),
         PopupMenuItem(
           enabled: false,
-          // height: 2.0, //??
-          height: userIsActive ? 2.0 : 0.0,
+          height: userName != '' ? 2.0 : 0.0,
           value: null,
-          child: userIsActive
+          child: userName != ''
               ? const Divider(
                   color: richColor,
                   thickness: 2.0,
