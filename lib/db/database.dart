@@ -201,8 +201,6 @@ class DBProvider {
     ''');
   }
 
-// _createUsersTables
-
   // Добавление товара из таблицы Products в таблицу ShoppingCart пользователя
   Future<ShoppingCart> insertProductToShoppingCart({
     required ShoppingCart shoppingCart,
@@ -217,29 +215,43 @@ class DBProvider {
   }
 
   // Удаление товара из таблицы ShoppingCart пользователя
-  Future<int?> deleteProduct({
-    required int id,
+  Future<int?> deleteProductFromShoppingCart({
+    required int productId,
     required int userId,
   }) async {
     Database? db = await database;
     return await db?.delete(
       "ShoppingCart_User_$userId",
       where: '"id" = ?',
-      whereArgs: [id],
+      whereArgs: [productId],
     );
   }
 
-  // Future<List<User>> getShoppingCart() async {
-  //   Database? db = await database;
-  //   final List<Map<String, dynamic>> usersMapList = await db!.query("Users");
-  //   final List<User> usersList = [];
-  //   for (var userMap in usersMapList) {
-  //     usersList.add(
-  //       User.fromMap(userMap),
-  //     );
-  //   }
-  //   return usersList;
-  // }
+  // Удаление всех товаров из из таблицы ShoppingCart пользователя
+  Future<void> deleteAllProductsFromShoppingCart({
+    required int userId,
+  }) async {
+    Database? db = await database;
+    await db?.execute("DELETE  FROM ShoppingCart_User_$userId ;");
+  }
+
+  // Получение карт товаров из таблицы ShoppingCart пользователя
+  Future<List<ShoppingCart>> getProductsInShoppingCart({
+    required int userId,
+  }) async {
+    Database? db = await database;
+    // final List<Map<String, dynamic>> usersMapList =
+    final List<Map<String, dynamic>> userShoppingCartMapList =
+        await db!.query("ShoppingCart_User_$userId");
+    // final List<User> usersList = [];
+    final List<ShoppingCart> usersShoppingCartList = [];
+    for (var item in userShoppingCartMapList) {
+      usersShoppingCartList.add(
+        ShoppingCart.fromMap(item),
+      );
+    }
+    return usersShoppingCartList;
+  }
 
   // Оформление заказа:
   // - перенос товаров из ShoppingCart в History с описанием заказанных товаров

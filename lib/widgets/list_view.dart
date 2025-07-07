@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_cart/functions.dart';
+import 'package:shopping_cart/model/shopping_cart.dart';
 import '../db/database.dart';
 import '../model/product.dart';
 import '../constants.dart';
@@ -41,19 +42,54 @@ class NewListView extends StatelessWidget {
         message: message,
         onPressed: () async {
           int? currentUserId = await UserSecureStorage.getCurrentUserId();
-          debugColorPrint('currentUserId: $currentUserId'); //todo: Потом убрать
+          debugColorPrint('currentUserId: $currentUserId');
 
+          ShoppingCart shoppingCart = ShoppingCart(
+            id: null,
+            productId: products[index].id,
+          );
+
+          // Добавление в таблицу ShoppingCart.
           if (action == ActionIconType.add) {
-            productsInShoppingCart.add(products[index]);
-            //TODO: Добавление в таблицу ShoppingCart.
-            // DBProvider.db.insertProductToShoppingCart(
-            //   shoppingCart: shoppingCart,
-            //   userId: userId,
-            // );
+            productsInShoppingCart
+                .add(products[index]); //TODO: Закомментировать!
+
+            if (currentUserId != null) {
+              DBProvider.db.insertProductToShoppingCart(
+                shoppingCart: shoppingCart,
+                userId: int.parse(currentUserId.toString()),
+              );
+              debugColorPrint(
+                  'добавлен продукт id: ${products[index].id}, пользователь id: $currentUserId');
+
+              debugColorPrint('Индекс (index) при добавлении продукта: $index');
+            }
           }
+
+          // Удаление из таблицы ShoppingCart.
           if (action == ActionIconType.remove) {
-            productsInShoppingCart.remove(products[index]);
-            //TODO: Удаление из таблицы ShoppingCart.
+            productsInShoppingCart
+                .remove(products[index]); //TODO: Закомментировать!
+
+            if (currentUserId != null) {
+              debugColorPrint('Проверка:');
+
+              debugColorPrint('index: $index');
+
+              //TODO: ERROR!
+
+              // debugColorPrint('products[index].id: ${products[index].id}');
+
+              // debugColorPrint(
+              //     'int.parse(currentUserId.toString()): ${int.parse(currentUserId.toString())}');
+
+              // DBProvider.db.deleteProductFromShoppingCart(
+              //   productId: products[index].id,
+              //   userId: int.parse(currentUserId.toString()),
+              // );
+              // debugColorPrint(
+              //     'удален продукт id: ${products[index].id}, пользователь id: $currentUserId');
+            }
           }
           onPressed!();
         },

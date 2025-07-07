@@ -232,7 +232,7 @@ class _RegisterPageState extends State<RegisterPage> {
       // Добавление нового пользователя в Secure Storage
       saveNewUserToSecureStorage();
 
-      //TODO: Создание таблиц ShoppingCart и History (для нового пользователя)
+      // Создание таблиц ShoppingCart и History (для нового пользователя)
       createTablesForNewUser();
 
       _nameController.text = '';
@@ -257,9 +257,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future createTablesForNewUser() async {
     User newUser = await DBProvider.db.getNewUser();
-    //TODO: Создание таблицы ShoppingCart (для нового пользователя)
+    // Создание таблицы ShoppingCart (для нового пользователя)
     DBProvider.db.createTableShoppingCart(newUser.id as int);
-    //TODO: Создание таблицы History (для нового пользователя)
+
+    // Создание таблицы History (для нового пользователя)
     // DBProvider.db.createTableHistory(newUser.id as int);
   }
 

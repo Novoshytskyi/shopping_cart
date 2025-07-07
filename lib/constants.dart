@@ -15,4 +15,4 @@ Icon deleteIcon = const Icon(
   color: lightColor,
 );
 
-List<Product> productsInShoppingCart = [];
+List<Product> productsInShoppingCart = []; //TODO: Закомментировать!
