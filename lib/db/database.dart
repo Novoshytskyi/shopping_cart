@@ -175,7 +175,7 @@ class DBProvider {
 
     final res =
         await db!.rawQuery("SELECT * FROM Users WHERE email = '$email' ; ");
-
+    //tODO !!! Объединить запрос пароляи и почты!
     return User.fromMap(res[0]);
   }
 
@@ -240,10 +240,8 @@ class DBProvider {
     required int userId,
   }) async {
     Database? db = await database;
-    // final List<Map<String, dynamic>> usersMapList =
     final List<Map<String, dynamic>> userShoppingCartMapList =
         await db!.query("ShoppingCart_User_$userId");
-    // final List<User> usersList = [];
     final List<ShoppingCart> usersShoppingCartList = [];
     for (var item in userShoppingCartMapList) {
       usersShoppingCartList.add(

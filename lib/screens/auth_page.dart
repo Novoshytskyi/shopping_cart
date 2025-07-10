@@ -4,7 +4,7 @@ import '../db/database.dart';
 import '../functions.dart';
 import '../theme_settings.dart';
 import '../user_secure_storage.dart';
-import '../widgets/popup_menu_button.dart';
+// import '../widgets/popup_menu_button.dart';
 import '../widgets/reusable_button.dart';
 
 class AuthPage extends StatefulWidget {
@@ -51,6 +51,7 @@ class _AuthPageState extends State<AuthPage> {
     super.initState();
     setState(() {});
     initFromSecureStorage();
+    // Проверка и переход на экран 3
   }
 
   Future initFromSecureStorage() async {
@@ -63,11 +64,20 @@ class _AuthPageState extends State<AuthPage> {
 
     userIsActive = currentUser == null ? false : true;
 
+    // goToProductsPage(userIsActive); //!!! ???
+
     setState(() {
       _emailController.text = email;
       _passController.text = pass;
     });
   }
+
+  // void goToProductsPage(bool userIsActive) {
+  //   //?
+  //   if (userIsActive) {
+  //     Navigator.pushNamed(context, '/page3');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -83,18 +93,18 @@ class _AuthPageState extends State<AuthPage> {
           ),
         ),
         centerTitle: true,
-        actions: [
-          PopupMenuButtonNew(
-            onPressedLogOut: () {
-              clearAuthFields();
-              userIsActive = false;
-              setState(() {
-                name = '';
-              });
-            },
-            userName: name,
-          ),
-        ],
+        // actions: [
+        //   PopupMenuButtonNew(
+        //     onPressedLogOut: () {
+        //       clearAuthFields();
+        //       userIsActive = false;
+        //       setState(() {
+        //         name = '';
+        //       });
+        //     },
+        //     userName: name,
+        //   ),
+        // ],
       ),
       body: Form(
         key: _formKey,
