@@ -7,6 +7,7 @@ void playSound() {
 }
 
 void showCustomSnackBar(BuildContext context, String message) {
+  playSound();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       padding: const EdgeInsets.all(

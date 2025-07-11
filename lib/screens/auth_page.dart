@@ -4,7 +4,6 @@ import '../db/database.dart';
 import '../functions.dart';
 import '../theme_settings.dart';
 import '../user_secure_storage.dart';
-// import '../widgets/popup_menu_button.dart';
 import '../widgets/reusable_button.dart';
 
 class AuthPage extends StatefulWidget {
@@ -24,7 +23,7 @@ class _AuthPageState extends State<AuthPage> {
   final _passFocus = FocusNode();
 
   bool _hidePass = true;
-  bool userIsActive = false;
+  // bool userIsActive = false;
 
   String? name;
 
@@ -51,7 +50,6 @@ class _AuthPageState extends State<AuthPage> {
     super.initState();
     setState(() {});
     initFromSecureStorage();
-    // Проверка и переход на экран 3
   }
 
   Future initFromSecureStorage() async {
@@ -60,24 +58,13 @@ class _AuthPageState extends State<AuthPage> {
     final email = currentUser == null ? '' : currentUser.email;
     final pass = currentUser == null ? '' : currentUser.password;
 
-    name = currentUser == null ? '' : currentUser.name;
-
-    userIsActive = currentUser == null ? false : true;
-
-    // goToProductsPage(userIsActive); //!!! ???
+    // userIsActive = currentUser == null ? false : true;
 
     setState(() {
       _emailController.text = email;
       _passController.text = pass;
     });
   }
-
-  // void goToProductsPage(bool userIsActive) {
-  //   //?
-  //   if (userIsActive) {
-  //     Navigator.pushNamed(context, '/page3');
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -93,18 +80,6 @@ class _AuthPageState extends State<AuthPage> {
           ),
         ),
         centerTitle: true,
-        // actions: [
-        //   PopupMenuButtonNew(
-        //     onPressedLogOut: () {
-        //       clearAuthFields();
-        //       userIsActive = false;
-        //       setState(() {
-        //         name = '';
-        //       });
-        //     },
-        //     userName: name,
-        //   ),
-        // ],
       ),
       body: Form(
         key: _formKey,
@@ -195,17 +170,18 @@ class _AuthPageState extends State<AuthPage> {
               ReusableButton(
                 text: 'РЕГИСТРАЦИЯ',
                 onPressed: () {
-                  if (userIsActive) {
-                    showCustomSnackBar(context, 'Вы уже зарегестрированы');
-                  } else {
-                    setState(() {});
-                    _formKey.currentState!.reset();
-                    clearAuthFields();
-                    _emailFocus.unfocus();
-                    _passFocus.unfocus();
+                  // if (userIsActive) {
+                  //   showCustomSnackBar(context, 'Вы уже зарегестрированы');
+                  // } else {
+                  setState(() {});
 
-                    Navigator.pushNamed(context, '/page2');
-                  }
+                  _formKey.currentState!.reset();
+                  clearAuthFields();
+                  _emailFocus.unfocus();
+                  _passFocus.unfocus();
+
+                  Navigator.pushNamed(context, '/page2');
+                  // }
                 },
               ),
             ],
@@ -221,11 +197,13 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   void _submitForm() {
-    if (userIsActive) {
-      _emailController.text = '';
-      _passController.text = '';
-      Navigator.pushNamed(context, '/page3');
-    } else if (_formKey.currentState!.validate()) {
+    // if (userIsActive) {
+    //   _emailController.text = '';
+    //   _passController.text = '';
+
+    //   Navigator.pushNamed(context, '/page3');
+    // } else
+    if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
       debugColorPrint('email: ${_emailController.text}');
@@ -240,15 +218,12 @@ class _AuthPageState extends State<AuthPage> {
 
       // Выполняется при авторизации (email, password)
       void doIfPassIsAuth() {
-        showCustomSnackBar(context, 'Вход выполнен');
-
         saveFoundUserToSecureStorage();
 
         _emailController.text = '';
         _passController.text = '';
 
-        playSound();
-
+        showCustomSnackBar(context, 'Вход выполнен');
         Navigator.pushNamed(context, '/page3');
       }
 

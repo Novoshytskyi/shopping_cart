@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../model/user.dart';
-import '../theme_settings.dart';
 import '../user_secure_storage.dart';
 
 class SplashPage extends StatefulWidget {
@@ -17,7 +16,7 @@ class _SplashPageState extends State<SplashPage> {
   }
 
   Future initFromSecureStorage() async {
-    var currentUser = await UserSecureStorage.getCurrentUserInfo();
+    User? currentUser = await UserSecureStorage.getCurrentUserInfo();
     routeSelection(currentUser);
   }
 

@@ -203,7 +203,6 @@ class _RegisterPageState extends State<RegisterPage> {
               ReusableButton(
                 text: 'РЕГИСТРАЦИЯ',
                 onPressed: () {
-                  // playSound();
                   setState(() {
                     _submitForm();
                   });
@@ -216,7 +215,7 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  void _submitForm() {
+  void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
@@ -230,29 +229,34 @@ class _RegisterPageState extends State<RegisterPage> {
       DBProvider.db.insertUser(user);
 
       // Добавление нового пользователя в Secure Storage
-      saveNewUserToSecureStorage();
+      await saveNewUserToSecureStorage();
 
       // Создание таблиц ShoppingCart и History (для нового пользователя)
-      createTablesForNewUser();
+      await createTablesForNewUser();
 
       _nameController.text = '';
       _emailController.text = '';
       _passController.text = '';
       _confirmPassController.text = '';
 
-      playSound();
-      showCustomSnackBar(context, 'Регистрация успешна');
-
-      Navigator.pushNamed(context, '/page3');
+      routeToProductsPage();
     } else {
       showCustomSnackBar(context, 'Заполните поля корректно');
     }
   }
 
+  void routeToProductsPage() {
+    showCustomSnackBar(context, 'Регистрация успешна');
+
+    Navigator.pushNamed(context, '/page3');
+  }
+
   // Извлечение нового пользователя с id из БД и сохр. в SecureStorage
   Future saveNewUserToSecureStorage() async {
     User newUser = await DBProvider.db.getNewUser();
+
     await UserSecureStorage.setCurrentUserInfo(newUser);
+    debugColorPrint('register_page -> name: ${newUser.name}');
   }
 
   Future createTablesForNewUser() async {
