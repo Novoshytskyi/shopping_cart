@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../functions.dart';
 import '../model/product.dart';
 import '../constants.dart';
 import '../db/database.dart';
@@ -24,20 +25,27 @@ class _ProductsPageState extends State<ProductsPage> {
   void initState() {
     super.initState();
     updateProductsList();
-    initFromSecureStorage();
+
+    updateCurrentUser();
 
     setState(() {});
+
+    debugColorPrint('products_page -> Открыт');
   }
 
-  updateProductsList() {
-    setState(() {
-      _productsList = DBProvider.db.getProducts();
-    });
+  void updateProductsList() {
+    _productsList = DBProvider.db.getProducts();
   }
 
-  Future initFromSecureStorage() async {
+  Future<void> updateCurrentUser() async {
     currentUser = await UserSecureStorage.getCurrentUserInfo();
     setState(() {});
+
+    debugColorPrint(
+        'products_page -> currentUser!.id: ${currentUser == null ? '?' : currentUser!.id}');
+
+    debugColorPrint(
+        'products_page -> currentUser!.name: ${currentUser == null ? '?' : currentUser!.name}');
   }
 
   @override

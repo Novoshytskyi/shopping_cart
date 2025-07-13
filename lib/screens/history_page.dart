@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../functions.dart';
 import '../theme_settings.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -11,6 +12,7 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   void initState() {
     super.initState();
+    debugColorPrint('history_page -> Открыт');
   }
 
   @override
