@@ -23,7 +23,8 @@ class NewListView extends StatelessWidget {
     required this.action,
   });
 
-  final List<Product> products;
+  // final List<Product> products; //?
+  final List products;
   final Icon listViewIcon;
   final String message;
   final Function? onPressed;
@@ -44,9 +45,16 @@ class NewListView extends StatelessWidget {
           int? currentUserId = await UserSecureStorage.getCurrentUserId();
           debugColorPrint('currentUserId: $currentUserId');
 
+          // ShoppingCart shoppingCart = ShoppingCart(
+          //   id: null,
+          //   productId: products[index].id,
+          // );
+
           ShoppingCart shoppingCart = ShoppingCart(
-            id: null,
-            productId: products[index].id,
+            id: products[index].id,
+            name: products[index].name,
+            price: products[index].price,
+            image: products[index].image,
           );
 
           // Добавление в таблицу ShoppingCart.
@@ -75,6 +83,9 @@ class NewListView extends StatelessWidget {
               debugColorPrint('Проверка:');
 
               debugColorPrint('index: $index');
+
+              // DBProvider.db.deleteProductFromShoppingCart(
+              //     productId: products[index], userId: currentUserId);
 
               //TODO: ERROR!
 

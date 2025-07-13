@@ -261,6 +261,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Future createTablesForNewUser() async {
     User newUser = await DBProvider.db.getNewUser();
+
     // Создание таблицы ShoppingCart (для нового пользователя)
     await DBProvider.db.createTableShoppingCart(newUser.id as int);
 

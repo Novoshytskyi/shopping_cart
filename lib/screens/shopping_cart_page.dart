@@ -1,3 +1,5 @@
+// import 'dart:js_interop'; //!!! ???
+
 import 'package:flutter/material.dart';
 import 'package:shopping_cart/model/shopping_cart.dart';
 import '../constants.dart';
@@ -19,34 +21,34 @@ class ShoppingCartPage extends StatefulWidget {
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
   int? currentUserId;
   late Future<List<Product>> _productsList;
-  late Future<List<ShoppingCart>> _cartsList;
+  late Future<List<ShoppingCart>>? _cartsList;
 
   @override
   void initState() {
     super.initState();
     updateCurrentUserId();
 
-    // updateProductsInShoppingCartList();
+    updateProductsList();
+
+    updateCartsList();
 
     debugColorPrint('shopping_cart_page -> Открыт');
   }
 
-  // Future<void> updateCurrentUserId() async {
-  //   currentUserId = await UserSecureStorage.getCurrentUserId();
-  //   debugColorPrint('shopping_cart_page -> currentUserId: $currentUserId');
-  // }
   void updateCurrentUserId() async {
-    _productsList = DBProvider.db.getProducts();
-
     currentUserId = await UserSecureStorage.getCurrentUserId();
     debugColorPrint('1. shopping_cart_page -> currentUserId: $currentUserId');
 
-    _cartsList =
-        DBProvider.db.getProductsInShoppingCart(userId: currentUserId!);
-    //--------------------------------
+    // debugColorPrint('2. shopping_cart_page -> currentUserId: $currentUserId');
+  }
 
-    debugColorPrint('2. shopping_cart_page -> currentUserId: $currentUserId');
+  void updateProductsList() {
+    _productsList = DBProvider.db.getProducts();
+    debugColorPrint(_productsList.toString());
+  }
 
+  void updateCartsList() {
+    _cartsList = DBProvider.db.getProductsInShoppingCart(userId: 1); //! ???
     debugColorPrint(_cartsList.toString());
   }
 
@@ -86,29 +88,29 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
               thickness: 2.0,
             ),
             //?+++++++++++++++++++++++++++++++++++++++++++++++++
-            Expanded(
-              child: FutureBuilder(
-                future: _productsList,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return NewListView(
-                      context: context,
-                      products: snapshot.data!,
-                      listViewIcon: shoppingCartIcon,
-                      message: 'Добавлен в корзину',
-                      onPressed: () {
-                        setState(() {});
-                      },
-                      action: ActionIconType.add,
-                    );
-                  }
-                  if (snapshot.data == null || snapshot.data!.isEmpty) {
-                    return const Text('Данные Продуктов не найденны.');
-                  }
-                  return const CircularProgressIndicator();
-                },
-              ),
-            ),
+            // Expanded(
+            //   child: FutureBuilder(
+            //     future: _productsList,
+            //     builder: (context, snapshot) {
+            //       if (snapshot.hasData) {
+            //         return NewListView(
+            //           context: context,
+            //           products: snapshot.data!,
+            //           listViewIcon: shoppingCartIcon,
+            //           message: 'Добавлен в корзину',
+            //           onPressed: () {
+            //             setState(() {});
+            //           },
+            //           action: ActionIconType.add,
+            //         );
+            //       }
+            //       if (snapshot.data == null || snapshot.data!.isEmpty) {
+            //         return const Text('Данные Продуктов не найденны.');
+            //       }
+            //       return const CircularProgressIndicator();
+            //     },
+            //   ),
+            // ),
             //?+++++++++++++++++++++++++++++++++++++++++++++++++
             const Divider(
               height: 2.0,
@@ -137,7 +139,34 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
               thickness: 2.0,
             ),
             //?+++++++++++++++++++++++++++++++++++++++++++++++++
-            const Expanded(child: SizedBox(height: 10.0)),
+            // const Expanded(child: SizedBox(height: 10.0)),
+            //?+++++++++++++++++++++++++++++++++++++++++++++++++
+            Expanded(
+              child: FutureBuilder(
+                future: _cartsList, //+
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return NewListView(
+                      context: context,
+                      products: snapshot.data!,
+                      listViewIcon: deleteIcon,
+                      message: 'Товар удален',
+                      onPressed: () {
+                        setState(() {});
+                      },
+                      // action: ActionIconType.add,//+
+                      action: ActionIconType.remove,
+                    );
+                    debugColorPrint('snapshot.hasData');
+                  }
+                  if (snapshot.data == null || snapshot.data!.isEmpty) {
+                    return const Text('Данные товаров в корзине не найденны.');
+                  }
+                  // print(_cartsList);
+                  return const CircularProgressIndicator();
+                },
+              ),
+            ),
             //?+++++++++++++++++++++++++++++++++++++++++++++++++
 
             ReusableButton(
@@ -152,13 +181,12 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                   productsInShoppingCart.clear(); //TODO: Закомментировать!
 
                   // Очистка таблицы ShoppingCart текущего пользователя.
-                  if (currentUserId != null) {
-                    DBProvider.db.deleteAllProductsFromShoppingCart(
-                        userId: currentUserId!);
-                  }
+                  // if (currentUserId != null) {
+                  DBProvider.db.deleteAllProductsFromShoppingCart(
+                      userId: currentUserId!);
+                  // }
 
-                  playSound();
-
+                  updateCartsList();
                   setState(() {});
                 } else {
                   showCustomSnackBar(

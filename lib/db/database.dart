@@ -192,11 +192,23 @@ class DBProvider {
 
   //TODO: Для начального варианта создается таблица ShoppingCart включающая в себя полностью информацию о товаре. После отладки работоспособности и работы с таблицей History БУДЕТ оптимизированы таблицы (ShoppingCart будет хранить только id продукта).
 
+  // Future<void> createTableShoppingCart(int userId) async {
+  //   Database? db = await database;
+  //   await db?.execute('''
+  //     CREATE TABLE IF NOT EXISTS ShoppingCart_UserId_$userId (
+  //     id INTEGER  PRIMARY KEY AUTOINCREMENT,
+  //     productId INTEGER  NOT NULL,
+  //     name  TEXT  NOT NULL,
+  //     price TEXT  NOT NULL,
+  //     image TEXT  NOT NULL
+  //     );
+  //   ''');
+  // }
   Future<void> createTableShoppingCart(int userId) async {
     Database? db = await database;
     await db?.execute('''
       CREATE TABLE IF NOT EXISTS ShoppingCart_UserId_$userId (
-      id INTEGER  PRIMARY KEY AUTOINCREMENT,
+      id INTEGER  NOT NULL,
       name  TEXT  NOT NULL,
       price TEXT  NOT NULL,
       image TEXT  NOT NULL
@@ -205,24 +217,24 @@ class DBProvider {
   }
 
   //? Создание таблицы History (для нового пользователя)
-  Future<void> createTableHistory(int userId) async {
-    Database? db = await database;
-    await db?.execute('''
-      CREATE TABLE IF NOT EXISTS History_UserId_$userId (
-      id INTEGER  PRIMARY KEY AUTOINCREMENT,
-      productId INTEGER NOT NULL
-      );
-    ''');
-  }
+  // Future<void> createTableHistory(int userId) async {
+  //   Database? db = await database;
+  //   await db?.execute('''
+  //     CREATE TABLE IF NOT EXISTS History_UserId_$userId (
+  //     id INTEGER  PRIMARY KEY AUTOINCREMENT,
+  //     productId INTEGER NOT NULL
+  //     );
+  //   ''');
+  // }
 
-  // Добавление товара из таблицы Products в таблицу ShoppingCart пользователя
+  // Добавление товара в таблицу ShoppingCart пользователя
   Future<ShoppingCart> insertProductToShoppingCart({
     required ShoppingCart shoppingCart,
     required int userId,
   }) async {
     Database? db = await database;
     shoppingCart.id = (await db?.insert(
-      "ShoppingCart_User_$userId",
+      "ShoppingCart_UserId_$userId",
       shoppingCart.toMap(),
     ))!;
     return shoppingCart;
@@ -235,7 +247,7 @@ class DBProvider {
   }) async {
     Database? db = await database;
     return await db?.delete(
-      "ShoppingCart_User_$userId",
+      "ShoppingCart_UserId_$userId",
       where: '"id" = ?',
       whereArgs: [productId],
     );
@@ -246,7 +258,7 @@ class DBProvider {
     required int userId,
   }) async {
     Database? db = await database;
-    await db?.execute("DELETE  FROM ShoppingCart_User_$userId ;");
+    await db?.execute("DELETE  FROM ShoppingCart_UserId_$userId ;");
   }
 
   // Получение карт товаров из таблицы ShoppingCart пользователя
@@ -255,7 +267,7 @@ class DBProvider {
   }) async {
     Database? db = await database;
     final List<Map<String, dynamic>> userShoppingCartMapList =
-        await db!.query("ShoppingCart_User_$userId");
+        await db!.query("ShoppingCart_UserId_$userId ");
     final List<ShoppingCart> usersShoppingCartList = [];
     for (var item in userShoppingCartMapList) {
       usersShoppingCartList.add(
