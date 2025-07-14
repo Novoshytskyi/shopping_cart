@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../functions.dart';
 import '../theme_settings.dart';
+import '../widgets/history_card.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -41,15 +42,35 @@ class _HistoryPageState extends State<HistoryPage> {
           horizontal: 10.0,
           vertical: 10.0,
         ),
-        child: Center(
-          child: Text(
-            'Здесь будет\n\nИСТОРИЯ ПОКУПОК\n\nтекущего пользователя',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: richColor,
-              fontSize: 24.0,
+        // child: Center(
+        //   child: Text(
+        //     'Здесь будет\n\nИСТОРИЯ ПОКУПОК\n\nтекущего пользователя',
+        //     textAlign: TextAlign.center,
+        //     style: TextStyle(
+        //       color: richColor,
+        //       fontSize: 24.0,
+        //     ),
+        //   ),
+        // ),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 100.0,
             ),
-          ),
+            //?=================================================
+            HistoryCard(
+              id: 1,
+              name: 'MacBook Air M4 midnight',
+              price: 1000.0,
+              image: 'images/air-m4-midnight.jpg',
+              date: '14.07.25.',
+            ),
+            //?=================================================
+            SizedBox(
+              height: 100.0,
+            ),
+            //?=================================================
+          ],
         ),
       ),
     );

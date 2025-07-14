@@ -161,8 +161,9 @@ class DBProvider {
     return pass;
   }
 
-  // Получение пользователя по введенному email.
   //TODO: Объединить запрос пароляи и почты!
+
+  // Получение пользователя по введенному email.
   Future<User> getUserByEmail(String email) async {
     Database? db = await database;
 
@@ -174,6 +175,7 @@ class DBProvider {
 
   //TODO: Для начального варианта создается таблица ShoppingCart включающая в себя полностью информацию о товаре. После отладки работоспособности и работы с таблицей History БУДЕТ оптимизированы таблицы (ShoppingCart будет хранить только id продукта).
 
+  // Создание таблицы ShoppingCart (для нового пользователя)
   Future<void> createTableShoppingCart(int userId) async {
     Database? db = await database;
     await db?.execute('''
