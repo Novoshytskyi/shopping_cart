@@ -42,10 +42,10 @@ class _ProductsPageState extends State<ProductsPage> {
     setState(() {});
 
     debugColorPrint(
-        'products_page -> currentUser!.id: ${currentUser == null ? '?' : currentUser!.id}');
+        'products_page -> currentUser.id: ${currentUser == null ? '?' : currentUser!.id}');
 
     debugColorPrint(
-        'products_page -> currentUser!.name: ${currentUser == null ? '?' : currentUser!.name}');
+        'products_page -> currentUser.name: ${currentUser == null ? '?' : currentUser!.name}');
   }
 
   @override
@@ -65,9 +65,7 @@ class _ProductsPageState extends State<ProductsPage> {
           PopupMenuButtonNew(
             userName: currentUser?.name,
             onPressedLogOut: () {
-              setState(() {
-                // userName = '';
-              });
+              setState(() {});
               Navigator.pushNamed(context, '/page1');
             },
           ),

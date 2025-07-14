@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import 'model/product.dart';
 import 'theme_settings.dart';
 
 Icon shoppingCartIcon = const Icon(
@@ -14,5 +12,3 @@ Icon deleteIcon = const Icon(
   size: 24.0,
   color: lightColor,
 );
-
-List<Product> productsInShoppingCart = []; //TODO: Закомментировать!

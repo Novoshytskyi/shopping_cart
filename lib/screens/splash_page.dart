@@ -43,7 +43,6 @@ class _SplashPageState extends State<SplashPage> {
               ClipRRect(
                 borderRadius: BorderRadius.circular(25.0),
                 child: const Image(
-                  // fit: BoxFit.fitWidth,
                   image: AssetImage('images/logo_big.png'),
                   width: 140.0,
                 ),

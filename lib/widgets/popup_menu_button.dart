@@ -26,10 +26,6 @@ class PopupMenuButtonNew extends StatelessWidget {
             {
               Navigator.pushNamed(context, '/page6');
             }
-          // case 'item3':
-          //   {
-          //     Navigator.pushNamed(context, '/page3');
-          //   }
           case 'item4':
             {
               Navigator.pushNamed(context, '/page5');
@@ -82,16 +78,6 @@ class PopupMenuButtonNew extends StatelessWidget {
             ),
           ),
         ],
-        // const PopupMenuItem(
-        //   value: 'item3',
-        //   child: Row(
-        //     children: [
-        //       Icon(Icons.shopping_bag_outlined),
-        //       SizedBox(width: 12.0),
-        //       Text('Товары'),
-        //     ],
-        //   ),
-        // ),
         if (!kReleaseMode) ...[
           const PopupMenuItem(
             value: 'item4',

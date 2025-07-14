@@ -72,8 +72,6 @@ class DBProvider {
     ''');
   }
 
-  //?==========================================================================
-
   // Read Users
   Future<List<User>> getUsers() async {
     Database? db = await database;
@@ -106,7 +104,7 @@ class DBProvider {
   }
 
   // Delete User
-  // todo: удадить таблицы этого пользователя ShoppingCart и History
+  // Удадить таблицы этого пользователя ShoppingCart и History
   Future<int?> deleteUser(int id) async {
     Database? db = await database;
     return await db?.delete(
@@ -115,8 +113,6 @@ class DBProvider {
       whereArgs: [id],
     );
   }
-
-  //?==========================================================================
 
   // Read Table Products
   Future<List<Product>> getProducts() async {
@@ -132,10 +128,6 @@ class DBProvider {
     return productsList;
   }
 
-  //?==========================================================================
-
-  //??? Получение нового пользователя из БД с id
-
   // После регистрации нового пользователя:
 
   // Получение id только зарегестрированного пользователя
@@ -146,7 +138,7 @@ class DBProvider {
     return int.parse(res[0]['MAX(id)'].toString());
   }
 
-  //? Получение только зарегестрированного пользователя
+  // Получение только зарегестрированного пользователя
   Future<User> getNewUser() async {
     Database? db = await database;
     final List<Map<String, dynamic>> res =
@@ -170,25 +162,15 @@ class DBProvider {
   }
 
   // Получение пользователя по введенному email.
+  //TODO: Объединить запрос пароляи и почты!
   Future<User> getUserByEmail(String email) async {
     Database? db = await database;
 
     final res =
         await db!.rawQuery("SELECT * FROM Users WHERE email = '$email' ; ");
-    //tODO !!! Объединить запрос пароляи и почты!
+
     return User.fromMap(res[0]);
   }
-
-  // Создание таблицы ShoppingCart (для нового пользователя)
-  // Future<void> createTableShoppingCart(int userId) async {
-  //   Database? db = await database;
-  //   await db?.execute('''
-  //     CREATE TABLE IF NOT EXISTS SELECT "";_User_$userId (
-  //     id INTEGER  PRIMARY KEY AUTOINCREMENT,
-  //     productId INTEGER NOT NULL
-  //     );
-  //   ''');
-  // }
 
   //TODO: Для начального варианта создается таблица ShoppingCart включающая в себя полностью информацию о товаре. После отладки работоспособности и работы с таблицей History БУДЕТ оптимизированы таблицы (ShoppingCart будет хранить только id продукта).
 
@@ -204,6 +186,10 @@ class DBProvider {
   //     );
   //   ''');
   // }
+
+  //TODO: Цену товара переделать на числовой формат.
+
+  // Создание таблицы ShoppingCart (для нового пользователя)
   Future<void> createTableShoppingCart(int userId) async {
     Database? db = await database;
     await db?.execute('''
@@ -281,6 +267,4 @@ class DBProvider {
   // - перенос товаров из ShoppingCart в History с описанием заказанных товаров
   //     и расчетом суммы всего заказа;
   // - очистка содержимого таблицы ShoppingCart.
-
-  //?==========================================================================
 }

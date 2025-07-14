@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shopping_cart/functions.dart';
 import 'package:shopping_cart/model/shopping_cart.dart';
 import '../db/database.dart';
-import '../model/product.dart';
-import '../constants.dart';
 import '../user_secure_storage.dart';
 import 'product_card.dart';
 
@@ -23,7 +21,7 @@ class NewListView extends StatelessWidget {
     required this.action,
   });
 
-  // final List<Product> products; //?
+  // final List<Product> products;
   final List products;
   final Icon listViewIcon;
   final String message;
@@ -59,9 +57,6 @@ class NewListView extends StatelessWidget {
 
           // Добавление в таблицу ShoppingCart.
           if (action == ActionIconType.add) {
-            productsInShoppingCart
-                .add(products[index]); //TODO: Закомментировать!
-
             if (currentUserId != null) {
               DBProvider.db.insertProductToShoppingCart(
                 shoppingCart: shoppingCart,
@@ -76,30 +71,13 @@ class NewListView extends StatelessWidget {
 
           // Удаление из таблицы ShoppingCart.
           if (action == ActionIconType.remove) {
-            productsInShoppingCart
-                .remove(products[index]); //TODO: Закомментировать!
-
             if (currentUserId != null) {
               debugColorPrint('Проверка:');
 
               debugColorPrint('index: $index');
 
-              // DBProvider.db.deleteProductFromShoppingCart(
-              //     productId: products[index], userId: currentUserId);
-
-              //TODO: ERROR!
-
-              // debugColorPrint('products[index].id: ${products[index].id}');
-
-              // debugColorPrint(
-              //     'int.parse(currentUserId.toString()): ${int.parse(currentUserId.toString())}');
-
-              // DBProvider.db.deleteProductFromShoppingCart(
-              //   productId: products[index].id,
-              //   userId: int.parse(currentUserId.toString()),
-              // );
-              // debugColorPrint(
-              //     'удален продукт id: ${products[index].id}, пользователь id: $currentUserId');
+              DBProvider.db.deleteProductFromShoppingCart(
+                  productId: shoppingCart.id as int, userId: currentUserId);
             }
           }
           onPressed!();

@@ -31,7 +31,6 @@ class Shopping extends StatelessWidget {
         '/page6': (context) => const HistoryPage(),
         '/page7': (context) => const SplashPage(),
       },
-      // home: const AuthPage(),
       home: const SplashPage(),
     );
   }

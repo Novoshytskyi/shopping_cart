@@ -23,7 +23,6 @@ class _AuthPageState extends State<AuthPage> {
   final _passFocus = FocusNode();
 
   bool _hidePass = true;
-  // bool userIsActive = false;
 
   String? name;
 
@@ -57,8 +56,6 @@ class _AuthPageState extends State<AuthPage> {
 
     final email = currentUser == null ? '' : currentUser.email;
     final pass = currentUser == null ? '' : currentUser.password;
-
-    // userIsActive = currentUser == null ? false : true;
 
     setState(() {
       _emailController.text = email;
@@ -170,9 +167,6 @@ class _AuthPageState extends State<AuthPage> {
               ReusableButton(
                 text: 'РЕГИСТРАЦИЯ',
                 onPressed: () {
-                  // if (userIsActive) {
-                  //   showCustomSnackBar(context, 'Вы уже зарегестрированы');
-                  // } else {
                   setState(() {});
 
                   _formKey.currentState!.reset();
@@ -181,7 +175,6 @@ class _AuthPageState extends State<AuthPage> {
                   _passFocus.unfocus();
 
                   Navigator.pushNamed(context, '/page2');
-                  // }
                 },
               ),
             ],
