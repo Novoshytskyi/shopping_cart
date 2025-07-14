@@ -26,9 +26,9 @@ class _ProductsPageState extends State<ProductsPage> {
     super.initState();
     updateProductsList();
 
-    updateCurrentUser();
-
-    setState(() {});
+    setState(() {
+      updateCurrentUser();
+    });
 
     debugColorPrint('products_page -> Открыт');
   }
@@ -40,12 +40,6 @@ class _ProductsPageState extends State<ProductsPage> {
   Future<void> updateCurrentUser() async {
     currentUser = await UserSecureStorage.getCurrentUserInfo();
     setState(() {});
-
-    debugColorPrint(
-        'products_page -> currentUser.id: ${currentUser == null ? '?' : currentUser!.id}');
-
-    debugColorPrint(
-        'products_page -> currentUser.name: ${currentUser == null ? '?' : currentUser!.name}');
   }
 
   @override

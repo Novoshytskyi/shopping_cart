@@ -35,7 +35,7 @@ class NewListView extends StatelessWidget {
       itemBuilder: (context, index) => ProductCard(
         id: products[index].id,
         name: products[index].name,
-        price: products[index].price, //! ???
+        price: products[index].price,
         image: products[index].image,
         iconRight: listViewIcon,
         message: message,
@@ -43,13 +43,9 @@ class NewListView extends StatelessWidget {
           int? currentUserId = await UserSecureStorage.getCurrentUserId();
           debugColorPrint('currentUserId: $currentUserId');
 
-          // ShoppingCart shoppingCart = ShoppingCart(
-          //   id: null,
-          //   productId: products[index].id,
-          // );
-
           ShoppingCart shoppingCart = ShoppingCart(
-            id: products[index].id,
+            id: null,
+            productId: products[index].id,
             name: products[index].name,
             price: products[index].price,
             image: products[index].image,
@@ -62,22 +58,14 @@ class NewListView extends StatelessWidget {
                 shoppingCart: shoppingCart,
                 userId: int.parse(currentUserId.toString()),
               );
-              debugColorPrint(
-                  'добавлен продукт id: ${products[index].id}, пользователь id: $currentUserId');
-
-              debugColorPrint('Индекс (index) при добавлении продукта: $index');
             }
           }
 
           // Удаление из таблицы ShoppingCart.
           if (action == ActionIconType.remove) {
             if (currentUserId != null) {
-              debugColorPrint('Проверка:');
-
-              debugColorPrint('index: $index');
-
               DBProvider.db.deleteProductFromShoppingCart(
-                  productId: shoppingCart.id as int, userId: currentUserId);
+                  productId: products[index].id, userId: currentUserId);
             }
           }
           onPressed!();

@@ -22,14 +22,14 @@
 
 class ShoppingCart {
   late int? id;
-  // late int productId;
+  late int productId;
   late String name;
   late double price;
   late String image;
 
   ShoppingCart({
     required this.id,
-    // required this.productId,
+    required this.productId,
     required this.name,
     required this.price,
     required this.image,
@@ -38,7 +38,7 @@ class ShoppingCart {
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};
     map['id'] = id;
-    // map['productId'] = productId;
+    map['productId'] = productId;
     map['name'] = name;
     map['price'] = price;
     map['image'] = image;

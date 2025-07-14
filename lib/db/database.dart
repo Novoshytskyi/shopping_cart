@@ -174,33 +174,33 @@ class DBProvider {
 
   //TODO: Для начального варианта создается таблица ShoppingCart включающая в себя полностью информацию о товаре. После отладки работоспособности и работы с таблицей History БУДЕТ оптимизированы таблицы (ShoppingCart будет хранить только id продукта).
 
-  // Future<void> createTableShoppingCart(int userId) async {
-  //   Database? db = await database;
-  //   await db?.execute('''
-  //     CREATE TABLE IF NOT EXISTS ShoppingCart_UserId_$userId (
-  //     id INTEGER  PRIMARY KEY AUTOINCREMENT,
-  //     productId INTEGER  NOT NULL,
-  //     name  TEXT  NOT NULL,
-  //     price TEXT  NOT NULL,
-  //     image TEXT  NOT NULL
-  //     );
-  //   ''');
-  // }
-
-  //TODO: Цену товара переделать на числовой формат.
-
-  // Создание таблицы ShoppingCart (для нового пользователя)
   Future<void> createTableShoppingCart(int userId) async {
     Database? db = await database;
     await db?.execute('''
       CREATE TABLE IF NOT EXISTS ShoppingCart_UserId_$userId (
-      id INTEGER  NOT NULL,
+      id INTEGER  PRIMARY KEY AUTOINCREMENT,
+      productId INTEGER  NOT NULL,
       name  TEXT  NOT NULL,
       price REAL  NOT NULL,
       image TEXT  NOT NULL
       );
     ''');
   }
+
+  //TODO: Цену товара переделать на числовой формат.
+
+  // Создание таблицы ShoppingCart (для нового пользователя)
+  // Future<void> createTableShoppingCart(int userId) async {
+  //   Database? db = await database;
+  //   await db?.execute('''
+  //     CREATE TABLE IF NOT EXISTS ShoppingCart_UserId_$userId (
+  //     id INTEGER  NOT NULL,
+  //     name  TEXT  NOT NULL,
+  //     price REAL  NOT NULL,
+  //     image TEXT  NOT NULL
+  //     );
+  //   ''');
+  // }
 
   //? Создание таблицы History (для нового пользователя)
   // Future<void> createTableHistory(int userId) async {
