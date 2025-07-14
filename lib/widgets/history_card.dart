@@ -42,7 +42,7 @@ class HistoryCard extends StatelessWidget {
                 ),
                 const Divider(
                   color: richColor,
-                  thickness: 1.1,
+                  thickness: 1.5,
                 ),
                 //
                 Padding(
@@ -101,7 +101,7 @@ class HistoryCard extends StatelessWidget {
                 ),
                 const Divider(
                   color: richColor,
-                  thickness: 1.0,
+                  thickness: 1.5,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

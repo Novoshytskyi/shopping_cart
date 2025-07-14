@@ -74,7 +74,7 @@ class PopupMenuButtonNew extends StatelessWidget {
             value: null,
             child: Divider(
               color: richColor,
-              thickness: 2.0,
+              thickness: 1.5,
             ),
           ),
         ],
@@ -95,7 +95,7 @@ class PopupMenuButtonNew extends StatelessWidget {
             value: null,
             child: Divider(
               color: richColor,
-              thickness: 2.0,
+              thickness: 1.5,
             ),
           ),
         ],
