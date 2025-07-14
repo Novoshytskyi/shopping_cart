@@ -38,27 +38,27 @@ class DBProvider {
     // Создание таблицы Продуктов
     await db.execute('''
       CREATE TABLE IF NOT EXISTS Products (
-      id INTEGER  PRIMARY KEY AUTOINCREMENT,
-      name  TEXT  NOT NULL,
-      price TEXT  NOT NULL,
-      image TEXT  NOT NULL
-      );
+          id INTEGER  PRIMARY KEY AUTOINCREMENT,
+          name  TEXT  NOT NULL,
+          price REAL  NOT NULL,
+          image TEXT  NOT NULL
+          );
     ''');
 
     // Наполнение таблицы Продуктов
     await db.execute('''
       INSERT INTO Products (name, price, image)
       VALUES
-      ('MacBook Air M4 starlight', '1000', 'images/air-m4-starlight.jpg'),
-      ('MacBook Air M4 silver', '1000', 'images/air-m4-silver.jpg'),
-      ('MacBook Air M4 blue', '1000', 'images/air-m4-sky-blue.jpg'),
-      ('MacBook Air M4 midnight', '1000', 'images/air-m4-midnight.jpg'),
-      ('MacBook Air M1 gray',  '800', 'images/air-m1-space-gray.jpg'),
-      ('MacBook Air M1 gold', '800',  'images/air-m1-gold.jpg'),
-      ('MacBook Pro M4 silver', '1600', 'images/pro-m4-silver.jpg'),
-      ('MacBook Pro M4 black', '1600', 'images/pro-m4-space-black.jpg'),
-      ('MacBook Pro M3 silver', '1300', 'images/pro-m2-pro-silver.jpg'),
-      ('MacBook Pro M3 gray', '1300', 'images/pro-m2-space-gray.jpg');
+          ('MacBook Air M4 starlight', 1000, 'images/air-m4-starlight.jpg'),
+          ('MacBook Air M4 silver', 1000, 'images/air-m4-silver.jpg'),
+          ('MacBook Air M4 blue', 1000, 'images/air-m4-sky-blue.jpg'),
+          ('MacBook Air M4 midnight', 1000, 'images/air-m4-midnight.jpg'),
+          ('MacBook Air M1 gray',  800, 'images/air-m1-space-gray.jpg'),
+          ('MacBook Air M1 gold', 800,  'images/air-m1-gold.jpg'),
+          ('MacBook Pro M4 silver', 1600, 'images/pro-m4-silver.jpg'),
+          ('MacBook Pro M4 black', 1600, 'images/pro-m4-space-black.jpg'),
+          ('MacBook Pro M3 silver', 1300, 'images/pro-m2-pro-silver.jpg'),
+          ('MacBook Pro M3 gray', 1300, 'images/pro-m2-space-gray.jpg');
     ''');
 
     // Создание таблицы Пользователей
@@ -196,7 +196,7 @@ class DBProvider {
       CREATE TABLE IF NOT EXISTS ShoppingCart_UserId_$userId (
       id INTEGER  NOT NULL,
       name  TEXT  NOT NULL,
-      price TEXT  NOT NULL,
+      price REAL  NOT NULL,
       image TEXT  NOT NULL
       );
     ''');

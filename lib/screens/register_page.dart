@@ -164,7 +164,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             Icons.gpp_good_outlined,
                           ),
                           suffixIcon: IconButton(
-                            // color: richColor,
                             icon: Icon(_hidePass
                                 ? Icons.visibility_off_outlined
                                 : Icons.visibility_outlined),

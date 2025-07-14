@@ -17,7 +17,7 @@ class ProductCard extends StatelessWidget {
 
   final int id;
   final String name;
-  final String price;
+  final double price;
   final String image;
   final Icon iconRight;
   final String message;

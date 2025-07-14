@@ -24,7 +24,7 @@ class ShoppingCart {
   late int? id;
   // late int productId;
   late String name;
-  late String price;
+  late double price;
   late String image;
 
   ShoppingCart({

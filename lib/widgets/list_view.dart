@@ -35,7 +35,7 @@ class NewListView extends StatelessWidget {
       itemBuilder: (context, index) => ProductCard(
         id: products[index].id,
         name: products[index].name,
-        price: products[index].price,
+        price: products[index].price, //! ???
         image: products[index].image,
         iconRight: listViewIcon,
         message: message,
