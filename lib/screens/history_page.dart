@@ -13,7 +13,6 @@ class _HistoryPageState extends State<HistoryPage> {
   @override
   void initState() {
     super.initState();
-    debugColorPrint('history_page -> Открыт');
   }
 
   @override
@@ -54,9 +53,9 @@ class _HistoryPageState extends State<HistoryPage> {
         // ),
         child: Column(
           children: [
-            SizedBox(
-              height: 100.0,
-            ),
+            // SizedBox(
+            //   height: 100.0,
+            // ),
             HistoryCardSimple(
               id: 2,
               name: 'MacBook Pro M4 silver\nMacBook Air M4 starlight',

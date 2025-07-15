@@ -23,8 +23,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   void initState() {
     super.initState();
     updateCurrentUserId();
-
-    debugColorPrint('shopping_cart_page -> Открыт');
   }
 
   Future<void> updateCurrentUserId() async {
@@ -34,13 +32,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     setState(() {
       id = int.parse(currentUserId.toString());
     });
-
-    debugColorPrint('1. shopping_cart_page -> currentUserId: $currentUserId');
   }
 
   @override
   Widget build(BuildContext context) {
-    debugColorPrint('2. shopping_cart_page -> currentUserId: $currentUserId');
     late Future<List<ShoppingCart>>? cartsList;
 
     cartsList = DBProvider.db.getProductsInShoppingCart(userId: id);

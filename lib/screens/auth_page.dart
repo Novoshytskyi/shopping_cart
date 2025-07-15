@@ -199,9 +199,6 @@ class _AuthPageState extends State<AuthPage> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      debugColorPrint('email: ${_emailController.text}');
-      debugColorPrint('pass: ${_passController.text}');
-
       // Найденный по email пользователь становитвя активным (в SecureStorage)
       Future saveFoundUserToSecureStorage() async {
         User newUser = await DBProvider.db
@@ -227,8 +224,6 @@ class _AuthPageState extends State<AuthPage> {
       Future<void> passAuth() async {
         var passFromDb = await DBProvider.db
             .getPassByEmail(_emailController.text.toString());
-
-        debugColorPrint('passFromDb: $passFromDb');
 
         if (passFromDb == _passController.text.toString()) {
           doIfPassIsAuth();

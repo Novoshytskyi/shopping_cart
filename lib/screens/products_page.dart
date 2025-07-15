@@ -29,8 +29,6 @@ class _ProductsPageState extends State<ProductsPage> {
     setState(() {
       updateCurrentUser();
     });
-
-    debugColorPrint('products_page -> Открыт');
   }
 
   void updateProductsList() {

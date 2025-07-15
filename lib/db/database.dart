@@ -25,7 +25,6 @@ class DBProvider {
     Directory dir = await getApplicationDocumentsDirectory();
 
     String path = '${dir.path}ShoppingDB.db';
-    // debugColorPrint('path: $path');
 
     return await openDatabase(
       path,
@@ -134,7 +133,6 @@ class DBProvider {
   Future<int> getNewUserId() async {
     Database? db = await database;
     var res = await db!.rawQuery("SELECT MAX(id) FROM Users;");
-    debugColorPrint(res[0]['MAX(id)'].toString());
     return int.parse(res[0]['MAX(id)'].toString());
   }
 

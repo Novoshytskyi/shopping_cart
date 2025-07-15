@@ -41,7 +41,6 @@ class NewListView extends StatelessWidget {
         message: message,
         onPressed: () async {
           int? currentUserId = await UserSecureStorage.getCurrentUserId();
-          debugColorPrint('currentUserId: $currentUserId');
 
           ShoppingCart shoppingCart = ShoppingCart(
             id: null,

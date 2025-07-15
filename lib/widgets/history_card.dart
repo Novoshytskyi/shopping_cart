@@ -99,6 +99,61 @@ class HistoryCard extends StatelessWidget {
                     ],
                   ),
                 ),
+                //
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 4.0),
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5.0),
+                          child: Image(
+                            image: AssetImage(image),
+                            height: 50.0,
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  name,
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 3.0,
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  '$price \$',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        color: lightColor,
+                                        fontSize: 18.0,
+                                      ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(
+                                    right: 10.0,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 const Divider(
                   color: richColor,
                   thickness: 1.5,

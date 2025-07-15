@@ -255,7 +255,6 @@ class _RegisterPageState extends State<RegisterPage> {
     User newUser = await DBProvider.db.getNewUser();
 
     await UserSecureStorage.setCurrentUserInfo(newUser);
-    debugColorPrint('register_page -> name: ${newUser.name}');
   }
 
   Future createTablesForNewUser() async {
