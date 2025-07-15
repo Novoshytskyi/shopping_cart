@@ -57,7 +57,21 @@ class _HistoryPageState extends State<HistoryPage> {
             SizedBox(
               height: 100.0,
             ),
-            //?=================================================
+            HistoryCardSimple(
+              id: 2,
+              name: 'MacBook Pro M4 silver\nMacBook Air M4 starlight',
+              orderPrice: 2600,
+              date: '15.07.25',
+              time: '14:50:45',
+            ),
+            HistoryCardSimple2(
+              id: 2,
+              nameList: ['MacBook Pro M4 silver', 'MacBook Air M4 starlight'],
+              priceList: [1600.0, 1000],
+              orderPrice: 2600,
+              date: '15.07.25',
+              time: '14:50:45',
+            ),
             HistoryCard(
               id: 1,
               name: 'MacBook Air M4 midnight',
@@ -65,11 +79,9 @@ class _HistoryPageState extends State<HistoryPage> {
               image: 'images/air-m4-midnight.jpg',
               date: '14.07.25.',
             ),
-            //?=================================================
             SizedBox(
               height: 100.0,
             ),
-            //?=================================================
           ],
         ),
       ),
