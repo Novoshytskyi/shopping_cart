@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_cart/functions.dart';
 import 'package:shopping_cart/model/shopping_cart.dart';
 import '../db/database.dart';
 import '../user_secure_storage.dart';

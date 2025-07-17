@@ -9,13 +9,13 @@ import '../user_secure_storage.dart';
 import '../widgets/list_view.dart';
 import '../widgets/reusable_button.dart';
 
-class ShoppingCartPage extends StatefulWidget {
-  const ShoppingCartPage({super.key});
+class ShoppingCartScreen extends StatefulWidget {
+  const ShoppingCartScreen({super.key});
   @override
-  State<ShoppingCartPage> createState() => _ShoppingCartPageState();
+  State<ShoppingCartScreen> createState() => _ShoppingCartScreenState();
 }
 
-class _ShoppingCartPageState extends State<ShoppingCartPage> {
+class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
   int? currentUserId;
   int id = 1;
 

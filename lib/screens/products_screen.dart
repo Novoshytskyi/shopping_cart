@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../functions.dart';
 import '../model/product.dart';
 import '../constants.dart';
 import '../db/database.dart';
@@ -10,13 +9,13 @@ import '../widgets/list_view.dart';
 import '../widgets/popup_menu_button.dart';
 import '../widgets/reusable_button.dart';
 
-class ProductsPage extends StatefulWidget {
-  const ProductsPage({super.key});
+class ProductsScreen extends StatefulWidget {
+  const ProductsScreen({super.key});
   @override
-  State<ProductsPage> createState() => _ProductsPageState();
+  State<ProductsScreen> createState() => _ProductsScreenState();
 }
 
-class _ProductsPageState extends State<ProductsPage> {
+class _ProductsScreenState extends State<ProductsScreen> {
   late Future<List<Product>> _productsList;
 
   User? currentUser;

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_cart/screens/history_page.dart';
-import 'package:shopping_cart/screens/splash_page.dart';
-import 'package:shopping_cart/screens/users_info_page.dart';
-import 'screens/auth_page.dart';
-import 'screens/products_page.dart';
-import 'screens/register_page.dart';
-import 'screens/shopping_cart_page.dart';
+import 'package:shopping_cart/screens/history_screen.dart';
+import 'package:shopping_cart/screens/splash_screen.dart';
+import 'package:shopping_cart/screens/users_info_screen.dart';
+import 'screens/auth_screen.dart';
+import 'screens/products_screen.dart';
+import 'screens/register_screen.dart';
+import 'screens/shopping_cart_screen.dart';
 import 'theme_settings.dart';
 
 void main() {
@@ -23,16 +23,16 @@ class Shopping extends StatelessWidget {
       title: 'Shopping',
       // initialRoute: '/page7',
       routes: <String, WidgetBuilder>{
-        '/page1': (context) => const AuthPage(),
-        '/page2': (context) => const RegisterPage(),
-        '/page3': (context) => const ProductsPage(),
-        '/page4': (context) => const ShoppingCartPage(),
-        '/page5': (context) => const UsersInfoPage(),
-        '/page6': (context) => const HistoryPage(),
-        '/page7': (context) => const SplashPage(),
+        '/page1': (context) => const AuthScreen(),
+        '/page2': (context) => const RegisterScreen(),
+        '/page3': (context) => const ProductsScreen(),
+        '/page4': (context) => const ShoppingCartScreen(),
+        '/page5': (context) => const UsersInfoScreen(),
+        '/page6': (context) => const HistoryScreen(),
+        '/page7': (context) => const SplashScreen(),
       },
-      home: const SplashPage(),
-      // home: const HistoryPage(), //TODO ВРЕМЕННО
+      home: const SplashScreen(),
+      // home: const HistoryScreen(), //TODO ВРЕМЕННО
     );
   }
 }

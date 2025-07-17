@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import '../functions.dart';
 import '../theme_settings.dart';
 import '../widgets/history_card.dart';
 
-class HistoryPage extends StatefulWidget {
-  const HistoryPage({super.key});
+class HistoryScreen extends StatefulWidget {
+  const HistoryScreen({super.key});
   @override
-  State<HistoryPage> createState() => _HistoryPageState();
+  State<HistoryScreen> createState() => _HistoryScreenState();
 }
 
-class _HistoryPageState extends State<HistoryPage> {
+class _HistoryScreenState extends State<HistoryScreen> {
   @override
   void initState() {
     super.initState();
@@ -53,30 +52,13 @@ class _HistoryPageState extends State<HistoryPage> {
         // ),
         child: Column(
           children: [
-            // SizedBox(
-            //   height: 100.0,
-            // ),
-            HistoryCardSimple(
-              id: 2,
-              name: 'MacBook Pro M4 silver\nMacBook Air M4 starlight',
-              orderPrice: 2600,
-              date: '15.07.25',
-              time: '14:50:45',
-            ),
-            HistoryCardSimple2(
-              id: 2,
-              nameList: ['MacBook Pro M4 silver', 'MacBook Air M4 starlight'],
-              priceList: [1600.0, 1000],
-              orderPrice: 2600,
-              date: '15.07.25',
-              time: '14:50:45',
-            ),
             HistoryCard(
               id: 1,
               name: 'MacBook Air M4 midnight',
               price: 1000.0,
               image: 'images/air-m4-midnight.jpg',
-              date: '14.07.25.',
+              time: '11:20:45',
+              date: '17.07.25.',
             ),
             SizedBox(
               height: 100.0,

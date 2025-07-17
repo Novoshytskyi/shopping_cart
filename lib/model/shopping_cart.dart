@@ -25,7 +25,7 @@ class ShoppingCart {
 
   ShoppingCart.fromMap(Map<String, dynamic> map) {
     id = map['id'];
-    // productId = map['productId'];
+    productId = map['productId'];
     name = map['name'];
     price = map['price'];
     image = map['image'];

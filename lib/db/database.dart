@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:shopping_cart/model/product.dart';
 import 'package:sqflite/sqflite.dart';
-import '../functions.dart';
 import '../model/shopping_cart.dart';
 import '../model/user.dart';
 

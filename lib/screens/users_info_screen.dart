@@ -4,13 +4,13 @@ import '../model/user.dart';
 import '../theme_settings.dart';
 import '../widgets/users_list_view.dart';
 
-class UsersInfoPage extends StatefulWidget {
-  const UsersInfoPage({super.key});
+class UsersInfoScreen extends StatefulWidget {
+  const UsersInfoScreen({super.key});
   @override
-  State<UsersInfoPage> createState() => _UsersInfoPageState();
+  State<UsersInfoScreen> createState() => _UsersInfoScreenState();
 }
 
-class _UsersInfoPageState extends State<UsersInfoPage> {
+class _UsersInfoScreenState extends State<UsersInfoScreen> {
   late Future<List<User>> _usersList;
 
   @override

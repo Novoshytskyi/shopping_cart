@@ -6,13 +6,13 @@ import '../theme_settings.dart';
 import '../user_secure_storage.dart';
 import '../widgets/reusable_button.dart';
 
-class AuthPage extends StatefulWidget {
-  const AuthPage({super.key});
+class AuthScreen extends StatefulWidget {
+  const AuthScreen({super.key});
   @override
-  State<AuthPage> createState() => _AuthPageState();
+  State<AuthScreen> createState() => _AuthScreenState();
 }
 
-class _AuthPageState extends State<AuthPage> {
+class _AuthScreenState extends State<AuthScreen> {
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
 
