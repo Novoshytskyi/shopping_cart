@@ -3,6 +3,7 @@ import 'package:shopping_cart/model/shopping_cart.dart';
 import '../constants.dart';
 import '../db/database.dart';
 import '../functions.dart';
+import '../model/product_in_shopping_cart.dart';
 import '../model/user.dart';
 import '../theme_settings.dart';
 import '../user_secure_storage.dart';
@@ -36,7 +37,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
 
   @override
   Widget build(BuildContext context) {
-    late Future<List<ShoppingCart>>? cartsList;
+    late Future<List<ProductInShoppingCart>>? cartsList;
 
     cartsList = DBProvider.db.getProductsInShoppingCart(userId: id);
 
@@ -60,10 +61,10 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
           children: [
             Expanded(
               child: FutureBuilder(
-                future: cartsList, //!
+                future: cartsList,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return NewListView(
+                    return ProductsAndShoppingCartListView(
                       context: context,
                       products: snapshot.data!,
                       listViewIcon: deleteIcon,

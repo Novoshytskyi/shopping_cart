@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:shopping_cart/model/product.dart';
 import 'package:sqflite/sqflite.dart';
+import '../functions.dart';
+import '../model/product_in_shopping_cart.dart';
 import '../model/shopping_cart.dart';
 import '../model/user.dart';
 
@@ -170,38 +172,81 @@ class DBProvider {
     return User.fromMap(res[0]);
   }
 
-  //TODO: Для начального варианта создается таблица ShoppingCart включающая в себя полностью информацию о товаре. После отладки работоспособности и работы с таблицей History БУДЕТ оптимизированы таблицы (ShoppingCart будет хранить только id продукта).
-
-  // Создание таблицы ShoppingCart (для нового пользователя)
+  //! Создание таблицы ShoppingCart (для нового пользователя)
   Future<void> createTableShoppingCart(int userId) async {
     Database? db = await database;
     await db?.execute('''
-      CREATE TABLE IF NOT EXISTS ShoppingCart_UserId_$userId (
+      CREATE TABLE IF NOT EXISTS ShoppingCart_User_$userId (
       id INTEGER  PRIMARY KEY AUTOINCREMENT,
-      productId INTEGER  NOT NULL,
-      name  TEXT  NOT NULL,
-      price REAL  NOT NULL,
-      image TEXT  NOT NULL
+      productId INTEGER  NOT NULL
       );
     ''');
   }
 
-  //TODO: Цену товара переделать на числовой формат.
+  //! Добавление товара в таблицу ShoppingCart пользователя
+  Future<ShoppingCart> insertProductToShoppingCart({
+    required ShoppingCart shoppingCart,
+    required int userId,
+  }) async {
+    Database? db = await database;
+    shoppingCart.id = (await db?.insert(
+      "ShoppingCart_User_$userId",
+      shoppingCart.toMap(),
+    ))!;
+    debugColorPrint('database -> shoppingCart.id: ${shoppingCart.id},');
+    return shoppingCart;
+  }
 
-  // Создание таблицы ShoppingCart (для нового пользователя)
-  // Future<void> createTableShoppingCart(int userId) async {
-  //   Database? db = await database;
-  //   await db?.execute('''
-  //     CREATE TABLE IF NOT EXISTS ShoppingCart_UserId_$userId (
-  //     id INTEGER  NOT NULL,
-  //     name  TEXT  NOT NULL,
-  //     price REAL  NOT NULL,
-  //     image TEXT  NOT NULL
-  //     );
-  //   ''');
-  // }
+  //! Удаление товара из таблицы ShoppingCart пользователя
+  Future<int?> deleteProductFromShoppingCart({
+    required int productId,
+    required int userId,
+  }) async {
+    Database? db = await database;
+    return await db?.delete(
+      "ShoppingCart_User_$userId",
+      where: '"id" = ?',
+      whereArgs: [productId],
+    );
+  }
 
-  //? Создание таблицы History (для нового пользователя)
+  //! Удаление всех товаров из из таблицы ShoppingCart пользователя
+  Future<void> deleteAllProductsFromShoppingCart({
+    required int userId,
+  }) async {
+    Database? db = await database;
+    await db?.execute("DELETE  FROM ShoppingCart_User_$userId ;");
+  }
+
+//! Получение карт товаров из таблицы ShoppingCart пользователя
+  Future<List<ProductInShoppingCart>> getProductsInShoppingCart({
+    required int userId,
+  }) async {
+    Database? db = await database;
+    final List<Map<String, dynamic>> userShoppingCartMapList =
+        await db!.rawQuery('''
+      SELECT 
+      ShoppingCart_User_$userId.id AS id, 
+      Products.id AS productId, 
+      Products.name AS name, 
+      Products.price AS price, 
+      Products.image AS image
+      FROM Products 
+      INNER JOIN ShoppingCart_User_$userId 
+      where Products.id = ShoppingCart_User_$userId.productId
+      ORDER BY  Products.id;
+    ''');
+    final List<ProductInShoppingCart> usersShoppingCartList = [];
+    for (var item in userShoppingCartMapList) {
+      debugColorPrint(item.toString());
+      usersShoppingCartList.add(
+        ProductInShoppingCart.fromMap(item),
+      );
+    }
+    return usersShoppingCartList;
+  }
+
+  //! Создание таблицы History (для нового пользователя)
   // Future<void> createTableHistory(int userId) async {
   //   Database? db = await database;
   //   await db?.execute('''
@@ -211,56 +256,6 @@ class DBProvider {
   //     );
   //   ''');
   // }
-
-  // Добавление товара в таблицу ShoppingCart пользователя
-  Future<ShoppingCart> insertProductToShoppingCart({
-    required ShoppingCart shoppingCart,
-    required int userId,
-  }) async {
-    Database? db = await database;
-    shoppingCart.id = (await db?.insert(
-      "ShoppingCart_UserId_$userId",
-      shoppingCart.toMap(),
-    ))!;
-    return shoppingCart;
-  }
-
-  // Удаление товара из таблицы ShoppingCart пользователя
-  Future<int?> deleteProductFromShoppingCart({
-    required int productId,
-    required int userId,
-  }) async {
-    Database? db = await database;
-    return await db?.delete(
-      "ShoppingCart_UserId_$userId",
-      where: '"id" = ?',
-      whereArgs: [productId],
-    );
-  }
-
-  // Удаление всех товаров из из таблицы ShoppingCart пользователя
-  Future<void> deleteAllProductsFromShoppingCart({
-    required int userId,
-  }) async {
-    Database? db = await database;
-    await db?.execute("DELETE  FROM ShoppingCart_UserId_$userId ;");
-  }
-
-  // Получение карт товаров из таблицы ShoppingCart пользователя
-  Future<List<ShoppingCart>> getProductsInShoppingCart({
-    required int userId,
-  }) async {
-    Database? db = await database;
-    final List<Map<String, dynamic>> userShoppingCartMapList =
-        await db!.query("ShoppingCart_UserId_$userId ");
-    final List<ShoppingCart> usersShoppingCartList = [];
-    for (var item in userShoppingCartMapList) {
-      usersShoppingCartList.add(
-        ShoppingCart.fromMap(item),
-      );
-    }
-    return usersShoppingCartList;
-  }
 
   // Оформление заказа:
   // - перенос товаров из ShoppingCart в History с описанием заказанных товаров

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_cart/functions.dart';
 import 'package:shopping_cart/model/shopping_cart.dart';
 import '../db/database.dart';
 import '../user_secure_storage.dart';
@@ -9,8 +10,8 @@ enum ActionIconType {
   remove,
 }
 
-class NewListView extends StatelessWidget {
-  const NewListView({
+class ProductsAndShoppingCartListView extends StatelessWidget {
+  const ProductsAndShoppingCartListView({
     super.key,
     required BuildContext context,
     required this.products,
@@ -44,10 +45,8 @@ class NewListView extends StatelessWidget {
           ShoppingCart shoppingCart = ShoppingCart(
             id: null,
             productId: products[index].id,
-            name: products[index].name,
-            price: products[index].price,
-            image: products[index].image,
           );
+          debugColorPrint('list_view -> productId: ${products[index].id},');
 
           // Добавление в таблицу ShoppingCart.
           if (action == ActionIconType.add) {

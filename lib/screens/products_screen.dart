@@ -74,7 +74,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 future: _productsList,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return NewListView(
+                    return ProductsAndShoppingCartListView(
                       context: context,
                       products: snapshot.data!,
                       listViewIcon: shoppingCartIcon,

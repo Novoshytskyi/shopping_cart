@@ -263,7 +263,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     // Создание таблицы ShoppingCart (для нового пользователя)
     await DBProvider.db.createTableShoppingCart(newUser.id as int);
 
-    // Создание таблицы History (для нового пользователя)
+    //TODO Создание таблицы History (для нового пользователя)
     // DBProvider.db.createTableHistory(newUser.id as int);
   }
 

@@ -3,22 +3,25 @@ import 'package:flutter/material.dart';
 import '../theme_settings.dart';
 
 class HistoryCard extends StatelessWidget {
-  const HistoryCard({
-    super.key,
-    required this.id,
-    required this.name,
-    required this.price,
-    required this.image,
-    required this.time,
-    required this.date,
-  });
+  const HistoryCard(
+      {super.key,
+      required this.id,
+      required this.time,
+      required this.date,
+      required this.name,
+      required this.price,
+      required this.image,
+      required this.orderPrice});
 
   final int id;
+  final String time;
+  final String date;
+  //
   final String name;
   final double price;
   final String image;
-  final String time;
-  final String date;
+  //
+  final double orderPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +181,7 @@ class HistoryCard extends StatelessWidget {
                           ),
                     ),
                     Text(
-                      '$price \$', //todo: price изменить на sum
+                      '$orderPrice \$', //todo: price изменить на sum
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: lightColor,
                             // fontSize: 16.0,
