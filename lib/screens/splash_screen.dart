@@ -24,7 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (currentUser == null) {
       Navigator.pushNamed(context, '/page1');
     } else {
-      Navigator.pushNamed(context, '/page3');
+      Navigator.pushNamed(context, '/page3', arguments: currentUser);
     }
   }
 

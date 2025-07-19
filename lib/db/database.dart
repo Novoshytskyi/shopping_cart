@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:shopping_cart/model/history.dart';
 import 'package:shopping_cart/model/product.dart';
 import 'package:sqflite/sqflite.dart';
 import '../functions.dart';
@@ -181,6 +182,8 @@ class DBProvider {
       productId INTEGER  NOT NULL
       );
     ''');
+    debugColorPrint(
+        'Создание таблицы ShoppingCart (для нового пользователя №$userId)');
   }
 
   //! Добавление товара в таблицу ShoppingCart пользователя
@@ -194,6 +197,8 @@ class DBProvider {
       shoppingCart.toMap(),
     ))!;
     debugColorPrint('database -> shoppingCart.id: ${shoppingCart.id},');
+    debugColorPrint(
+        'Добавление товара в таблицу ShoppingCart пользователя №$userId');
     return shoppingCart;
   }
 
@@ -203,6 +208,8 @@ class DBProvider {
     required int userId,
   }) async {
     Database? db = await database;
+    debugColorPrint(
+        'Удаление товара из таблицы ShoppingCart пользователя №$userId');
     return await db?.delete(
       "ShoppingCart_User_$userId",
       where: '"id" = ?',
@@ -216,9 +223,11 @@ class DBProvider {
   }) async {
     Database? db = await database;
     await db?.execute("DELETE  FROM ShoppingCart_User_$userId ;");
+    debugColorPrint(
+        'Удаление всех товаров из из таблицы ShoppingCart пользователя №$userId');
   }
 
-//! Получение карт товаров из таблицы ShoppingCart пользователя
+  //! Получение карт товаров из таблицы ShoppingCart пользователя
   Future<List<ProductInShoppingCart>> getProductsInShoppingCart({
     required int userId,
   }) async {
@@ -243,19 +252,79 @@ class DBProvider {
         ProductInShoppingCart.fromMap(item),
       );
     }
+    debugColorPrint(
+        'Получение карт товаров из таблицы ShoppingCart пользователя №$userId');
     return usersShoppingCartList;
   }
 
   //! Создание таблицы History (для нового пользователя)
-  // Future<void> createTableHistory(int userId) async {
-  //   Database? db = await database;
-  //   await db?.execute('''
-  //     CREATE TABLE IF NOT EXISTS History_UserId_$userId (
-  //     id INTEGER  PRIMARY KEY AUTOINCREMENT,
-  //     productId INTEGER NOT NULL
-  //     );
-  //   ''');
-  // }
+  Future<void> createTableHistory({
+    required int userId,
+  }) async {
+    Database? db = await database;
+    await db?.execute('''
+      CREATE TABLE IF NOT EXISTS History_User_$userId (
+      id INTEGER  PRIMARY KEY AUTOINCREMENT,
+      time TEXT  NOT NULL,
+      date TEXT  NOT NULL,
+      orderPrice REAL NOT NULL    
+      );
+    ''');
+    debugColorPrint(
+        'Создание таблицы History (для нового пользователя №$userId)');
+  }
+
+  //! Добавление в таблицу History данных из таблицы ShoppingCart пользователя
+
+  Future<void> addShoppingCartToHistory({
+    required int userId,
+  }) async {
+    Database? db = await database;
+    await db?.execute('''
+      INSERT INTO History_User_$userId (time, date, orderPrice)
+  VALUES  (
+      strftime('%H:%M', 'now', 'localtime'), 
+      strftime('%d.%m.%Y', 'now', 'localtime'), 
+      (SELECT SUM(Products.price) 
+      FROM Products 
+      INNER JOIN ShoppingCart_User_$userId 
+      where Products.id = ShoppingCart_User_$userId.productId)
+    );
+    ''');
+    debugColorPrint(
+        'Добавление в таблицу History данных из таблицы ShoppingCart пользователя №$userId');
+  }
+
+  //! Получение истории покупок товаров из таблицы History пользователя
+  Future<List<History>> getHistory({
+    required int userId,
+  }) async {
+    Database? db = await database;
+
+    final List<Map<String, dynamic>> historyMapList =
+        await db!.query("History_User_$userId");
+    final List<History> historyList = [];
+    for (var historyMap in historyMapList) {
+      debugColorPrint(historyMap.toString());
+
+      historyList.add(
+        History.fromMap(historyMap),
+      );
+    }
+    debugColorPrint(
+        'Получение истории покупок товаров из таблицы History пользователя №$userId');
+    return historyList;
+  }
+
+  //! Удаление истории покупок товаров из таблицы History пользователя
+  Future<void> deleteHistory({
+    required int userId,
+  }) async {
+    Database? db = await database;
+    await db?.execute("DELETE  FROM History_User_$userId ;");
+    debugColorPrint(
+        'Удаление истории покупок товаров из таблицы History пользователя №$userId');
+  }
 
   // Оформление заказа:
   // - перенос товаров из ShoppingCart в History с описанием заказанных товаров

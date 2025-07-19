@@ -27,6 +27,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passConfirmFocus = FocusNode();
 
   bool _hidePass = true;
+  late User currentUser;
 
   @override
   void dispose() {
@@ -247,7 +248,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void routeToProductsPage() {
     showCustomSnackBar(context, 'Регистрация успешна');
 
-    Navigator.pushNamed(context, '/page3');
+    Navigator.pushNamed(context, '/page3', arguments: currentUser);
   }
 
   // Извлечение нового пользователя с id из БД и сохр. в SecureStorage
@@ -255,16 +256,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
     User newUser = await DBProvider.db.getNewUser();
 
     await UserSecureStorage.setCurrentUserInfo(newUser);
+    currentUser = newUser; //! +++
   }
 
   Future createTablesForNewUser() async {
-    User newUser = await DBProvider.db.getNewUser();
+    // User newUser = await DBProvider.db.getNewUser();
 
     // Создание таблицы ShoppingCart (для нового пользователя)
-    await DBProvider.db.createTableShoppingCart(newUser.id as int);
+    await DBProvider.db.createTableShoppingCart(currentUser.id as int);
 
-    //TODO Создание таблицы History (для нового пользователя)
-    // DBProvider.db.createTableHistory(newUser.id as int);
+    // Создание таблицы History (для нового пользователя)
+    DBProvider.db.createTableHistory(userId: currentUser.id as int);
   }
 
   String? _validateName(String? value) {

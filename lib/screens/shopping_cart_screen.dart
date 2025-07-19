@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_cart/model/shopping_cart.dart';
 import '../constants.dart';
 import '../db/database.dart';
 import '../functions.dart';
 import '../model/product_in_shopping_cart.dart';
 import '../model/user.dart';
 import '../theme_settings.dart';
-import '../user_secure_storage.dart';
-import '../widgets/list_view.dart';
+import '../widgets/products_list_view.dart';
 import '../widgets/reusable_button.dart';
 
 class ShoppingCartScreen extends StatefulWidget {
@@ -17,26 +15,16 @@ class ShoppingCartScreen extends StatefulWidget {
 }
 
 class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
-  int? currentUserId;
-  int id = 1;
-
   @override
   void initState() {
     super.initState();
-    updateCurrentUserId();
-  }
-
-  Future<void> updateCurrentUserId() async {
-    User? currentUser = await UserSecureStorage.getCurrentUserInfo();
-    currentUserId = currentUser?.id;
-
-    setState(() {
-      id = int.parse(currentUserId.toString());
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    User currentUser = ModalRoute.of(context)!.settings.arguments as User;
+    int id = int.parse(currentUser.id.toString());
+
     late Future<List<ProductInShoppingCart>>? cartsList;
 
     cartsList = DBProvider.db.getProductsInShoppingCart(userId: id);
@@ -94,9 +82,11 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                   'Заказ принят',
                 );
 
+                // Добавление в таблицу History данных из таблицы ShoppingCart пользователя
+                DBProvider.db.addShoppingCartToHistory(userId: id);
+
                 // Очистка таблицы ShoppingCart текущего пользователя.
-                DBProvider.db
-                    .deleteAllProductsFromShoppingCart(userId: currentUserId!);
+                DBProvider.db.deleteAllProductsFromShoppingCart(userId: id);
 
                 setState(() {});
 

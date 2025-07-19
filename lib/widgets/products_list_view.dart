@@ -21,7 +21,6 @@ class ProductsAndShoppingCartListView extends StatelessWidget {
     required this.action,
   });
 
-  // final List<Product> products;
   final List products;
   final Icon listViewIcon;
   final String message;

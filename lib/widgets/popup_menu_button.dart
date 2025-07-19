@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_cart/model/user.dart';
 import '../theme_settings.dart';
 import 'package:flutter/foundation.dart';
 import '../user_secure_storage.dart';
@@ -6,12 +7,12 @@ import '../user_secure_storage.dart';
 class PopupMenuButtonNew extends StatelessWidget {
   const PopupMenuButtonNew({
     super.key,
-    required this.userName,
+    required this.currentUser,
     required this.onPressedLogOut,
   });
 
   final Function onPressedLogOut;
-  final String? userName;
+  final User currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -20,15 +21,26 @@ class PopupMenuButtonNew extends StatelessWidget {
         switch (value) {
           case 'item1':
             {
-              Navigator.pushNamed(context, '/page4');
+              Navigator.pushNamed(
+                context,
+                '/page4',
+                arguments: currentUser,
+              );
             }
           case 'item2':
             {
-              Navigator.pushNamed(context, '/page6');
+              Navigator.pushNamed(
+                context,
+                '/page6',
+                arguments: currentUser,
+              );
             }
           case 'item4':
             {
-              Navigator.pushNamed(context, '/page5');
+              Navigator.pushNamed(
+                context,
+                '/page5',
+              );
             }
           case 'item5':
             {
@@ -38,13 +50,13 @@ class PopupMenuButtonNew extends StatelessWidget {
         }
       },
       itemBuilder: (context) => [
-        if (userName != '') ...[
+        if (currentUser.name != '') ...[
           PopupMenuItem(
             child: Row(
               children: [
                 const Icon(Icons.person_outlined),
                 const SizedBox(width: 12.0),
-                Text(userName.toString().toUpperCase()),
+                Text(currentUser.name.toUpperCase()),
               ],
             ),
           ),

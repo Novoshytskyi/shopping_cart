@@ -190,12 +190,8 @@ class _AuthScreenState extends State<AuthScreen> {
   }
 
   void _submitForm() {
-    // if (userIsActive) {
-    //   _emailController.text = '';
-    //   _passController.text = '';
+    User? currentUser;
 
-    //   Navigator.pushNamed(context, '/page3');
-    // } else
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
@@ -203,22 +199,35 @@ class _AuthScreenState extends State<AuthScreen> {
       Future saveFoundUserToSecureStorage() async {
         User newUser = await DBProvider.db
             .getUserByEmail(_emailController.text.toString());
+        currentUser = newUser;
         await UserSecureStorage.setCurrentUserInfo(newUser);
       }
 
+      void routeToProductsPage() {
+        showCustomSnackBar(context, 'Вход выполнен');
+
+        Navigator.pushNamed(
+          context,
+          '/page3',
+          arguments: currentUser,
+        );
+      }
+
       // Выполняется при авторизации (email, password)
-      void doIfPassIsAuth() {
-        saveFoundUserToSecureStorage();
+      void doIfPassIsAuth() async {
+        await saveFoundUserToSecureStorage();
 
         _emailController.text = '';
         _passController.text = '';
 
-        showCustomSnackBar(context, 'Вход выполнен');
-        Navigator.pushNamed(context, '/page3');
+        routeToProductsPage();
       }
 
       void doIfPassNotAuth() {
-        showCustomSnackBar(context, 'Пароль не подходит\n');
+        showCustomSnackBar(
+          context,
+          'Пароль не подходит\n',
+        );
       }
 
       Future<void> passAuth() async {
@@ -235,7 +244,9 @@ class _AuthScreenState extends State<AuthScreen> {
       passAuth();
     } else {
       showCustomSnackBar(
-          context, 'Заполните поля корректно или зарегистрируйтесь');
+        context,
+        'Заполните поля корректно или зарегистрируйтесь',
+      );
     }
   }
 

@@ -1,29 +1,33 @@
 class History {
   late int id;
-  late DateTime dateTime;
+  late String time;
+  late String date;
   late double orderPrice;
-  late List<int> idProductsList;
+  // late dynamic productsInfo;
 
   History({
     required this.id,
-    required this.dateTime,
+    required this.time,
+    required this.date,
     required this.orderPrice,
-    required this.idProductsList,
+    // required this.productsInfo,
   });
 
   Map<String, dynamic> toMap() {
     final map = <String, dynamic>{};
     map['id'] = id;
-    map['dateTime'] = dateTime;
+    map['time'] = time;
+    map['date'] = date;
     map['orderPrice'] = orderPrice;
-    map['idProductsList'] = idProductsList;
+    // map['idProductsList'] = productsInfo;
     return map;
   }
 
   History.fromMap(Map<String, dynamic> map) {
     id = map['id'];
-    dateTime = map['dateTime'];
+    time = map['time'];
+    date = map['date'];
     orderPrice = map['orderPrice'];
-    idProductsList = map['idProductsList'];
+    // productsInfo = map['productsInfo'];
   }
 }

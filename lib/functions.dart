@@ -6,7 +6,10 @@ void playSound() {
   player.play(AssetSource('aqua1.wav'));
 }
 
-void showCustomSnackBar(BuildContext context, String message) {
+void showCustomSnackBar(
+  BuildContext context,
+  String message,
+) {
   playSound();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(

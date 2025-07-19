@@ -4,8 +4,7 @@ import '../constants.dart';
 import '../db/database.dart';
 import '../model/user.dart';
 import '../theme_settings.dart';
-import '../user_secure_storage.dart';
-import '../widgets/list_view.dart';
+import '../widgets/products_list_view.dart';
 import '../widgets/popup_menu_button.dart';
 import '../widgets/reusable_button.dart';
 
@@ -26,7 +25,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
     updateProductsList();
 
     setState(() {
-      updateCurrentUser();
+      // updateCurrentUser();
     });
   }
 
@@ -34,13 +33,15 @@ class _ProductsScreenState extends State<ProductsScreen> {
     _productsList = DBProvider.db.getProducts();
   }
 
-  Future<void> updateCurrentUser() async {
-    currentUser = await UserSecureStorage.getCurrentUserInfo();
-    setState(() {});
-  }
+  // Future<void> updateCurrentUser() async {
+  //   currentUser = await UserSecureStorage.getCurrentUserInfo();
+  //   setState(() {});
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final currentUser = ModalRoute.of(context)!.settings.arguments as User;
+
     return Scaffold(
       appBar: AppBar(
         leading: const SizedBox(),
@@ -54,7 +55,8 @@ class _ProductsScreenState extends State<ProductsScreen> {
         centerTitle: true,
         actions: [
           PopupMenuButtonNew(
-            userName: currentUser?.name,
+            // userName: currentUser?.name,
+            currentUser: currentUser,
             onPressedLogOut: () {
               setState(() {});
               Navigator.pushNamed(context, '/page1');
@@ -98,7 +100,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 Navigator.pushNamed(
                   context,
                   '/page4',
-                  arguments: null,
+                  arguments: currentUser,
                 );
                 setState(() {});
               },
