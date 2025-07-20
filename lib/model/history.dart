@@ -3,14 +3,14 @@ class History {
   late String time;
   late String date;
   late double orderPrice;
-  // late dynamic productsInfo;
+  late dynamic productsInfo;
 
   History({
     required this.id,
     required this.time,
     required this.date,
     required this.orderPrice,
-    // required this.productsInfo,
+    required this.productsInfo,
   });
 
   Map<String, dynamic> toMap() {
@@ -19,7 +19,7 @@ class History {
     map['time'] = time;
     map['date'] = date;
     map['orderPrice'] = orderPrice;
-    // map['idProductsList'] = productsInfo;
+    map['idProductsList'] = productsInfo;
     return map;
   }
 
@@ -28,6 +28,6 @@ class History {
     time = map['time'];
     date = map['date'];
     orderPrice = map['orderPrice'];
-    // productsInfo = map['productsInfo'];
+    productsInfo = map['productsInfo'];
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:shopping_cart/model/history.dart';
@@ -34,6 +35,8 @@ class DBProvider {
       onCreate: _createDb,
     );
   }
+
+  String jsonEncodedProductsInShoppingCartInfo = '';
 
   void _createDb(Database db, int version) async {
     // Создание таблицы Продуктов
@@ -129,8 +132,6 @@ class DBProvider {
     return productsList;
   }
 
-  // После регистрации нового пользователя:
-
   // Получение id только зарегестрированного пользователя
   Future<int> getNewUserId() async {
     Database? db = await database;
@@ -182,8 +183,6 @@ class DBProvider {
       productId INTEGER  NOT NULL
       );
     ''');
-    debugColorPrint(
-        'Создание таблицы ShoppingCart (для нового пользователя №$userId)');
   }
 
   //! Добавление товара в таблицу ShoppingCart пользователя
@@ -196,9 +195,7 @@ class DBProvider {
       "ShoppingCart_User_$userId",
       shoppingCart.toMap(),
     ))!;
-    debugColorPrint('database -> shoppingCart.id: ${shoppingCart.id},');
-    debugColorPrint(
-        'Добавление товара в таблицу ShoppingCart пользователя №$userId');
+
     return shoppingCart;
   }
 
@@ -208,8 +205,7 @@ class DBProvider {
     required int userId,
   }) async {
     Database? db = await database;
-    debugColorPrint(
-        'Удаление товара из таблицы ShoppingCart пользователя №$userId');
+
     return await db?.delete(
       "ShoppingCart_User_$userId",
       where: '"id" = ?',
@@ -223,8 +219,6 @@ class DBProvider {
   }) async {
     Database? db = await database;
     await db?.execute("DELETE  FROM ShoppingCart_User_$userId ;");
-    debugColorPrint(
-        'Удаление всех товаров из из таблицы ShoppingCart пользователя №$userId');
   }
 
   //! Получение карт товаров из таблицы ShoppingCart пользователя
@@ -247,13 +241,14 @@ class DBProvider {
     ''');
     final List<ProductInShoppingCart> usersShoppingCartList = [];
     for (var item in userShoppingCartMapList) {
-      debugColorPrint(item.toString());
       usersShoppingCartList.add(
         ProductInShoppingCart.fromMap(item),
       );
     }
-    debugColorPrint(
-        'Получение карт товаров из таблицы ShoppingCart пользователя №$userId');
+
+    jsonEncodedProductsInShoppingCartInfo =
+        json.encode(userShoppingCartMapList); //TODO ПРОКОММЕНТИРОВАТЬ!
+
     return usersShoppingCartList;
   }
 
@@ -267,32 +262,32 @@ class DBProvider {
       id INTEGER  PRIMARY KEY AUTOINCREMENT,
       time TEXT  NOT NULL,
       date TEXT  NOT NULL,
-      orderPrice REAL NOT NULL    
+      orderPrice REAL NOT NULL,
+      productsInfo TEXT NOT NULL   
       );
     ''');
-    debugColorPrint(
-        'Создание таблицы History (для нового пользователя №$userId)');
   }
 
   //! Добавление в таблицу History данных из таблицы ShoppingCart пользователя
 
   Future<void> addShoppingCartToHistory({
     required int userId,
+    required String cartsProductList,
   }) async {
     Database? db = await database;
+
     await db?.execute('''
-      INSERT INTO History_User_$userId (time, date, orderPrice)
-  VALUES  (
+      INSERT INTO History_User_$userId (time, date, orderPrice, productsInfo)
+      VALUES  (
       strftime('%H:%M', 'now', 'localtime'), 
       strftime('%d.%m.%Y', 'now', 'localtime'), 
       (SELECT SUM(Products.price) 
       FROM Products 
       INNER JOIN ShoppingCart_User_$userId 
-      where Products.id = ShoppingCart_User_$userId.productId)
-    );
+      where Products.id = ShoppingCart_User_$userId.productId),
+      ('$jsonEncodedProductsInShoppingCartInfo')
+      );
     ''');
-    debugColorPrint(
-        'Добавление в таблицу History данных из таблицы ShoppingCart пользователя №$userId');
   }
 
   //! Получение истории покупок товаров из таблицы History пользователя
@@ -305,14 +300,11 @@ class DBProvider {
         await db!.query("History_User_$userId");
     final List<History> historyList = [];
     for (var historyMap in historyMapList) {
-      debugColorPrint(historyMap.toString());
-
       historyList.add(
         History.fromMap(historyMap),
       );
     }
-    debugColorPrint(
-        'Получение истории покупок товаров из таблицы History пользователя №$userId');
+
     return historyList;
   }
 
@@ -322,12 +314,5 @@ class DBProvider {
   }) async {
     Database? db = await database;
     await db?.execute("DELETE  FROM History_User_$userId ;");
-    debugColorPrint(
-        'Удаление истории покупок товаров из таблицы History пользователя №$userId');
   }
-
-  // Оформление заказа:
-  // - перенос товаров из ShoppingCart в History с описанием заказанных товаров
-  //     и расчетом суммы всего заказа;
-  // - очистка содержимого таблицы ShoppingCart.
 }

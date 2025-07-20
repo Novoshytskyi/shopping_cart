@@ -45,7 +45,6 @@ class ProductsAndShoppingCartListView extends StatelessWidget {
             id: null,
             productId: products[index].id,
           );
-          debugColorPrint('list_view -> productId: ${products[index].id},');
 
           // Добавление в таблицу ShoppingCart.
           if (action == ActionIconType.add) {

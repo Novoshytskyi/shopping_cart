@@ -24,19 +24,12 @@ class _ProductsScreenState extends State<ProductsScreen> {
     super.initState();
     updateProductsList();
 
-    setState(() {
-      // updateCurrentUser();
-    });
+    setState(() {});
   }
 
   void updateProductsList() {
     _productsList = DBProvider.db.getProducts();
   }
-
-  // Future<void> updateCurrentUser() async {
-  //   currentUser = await UserSecureStorage.getCurrentUserInfo();
-  //   setState(() {});
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +48,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
         centerTitle: true,
         actions: [
           PopupMenuButtonNew(
-            // userName: currentUser?.name,
             currentUser: currentUser,
             onPressedLogOut: () {
               setState(() {});

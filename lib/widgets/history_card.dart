@@ -1,30 +1,38 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shopping_cart/functions.dart';
+import 'package:shopping_cart/model/product_in_shopping_cart.dart';
 
 import '../theme_settings.dart';
+import 'history_orders_list_view.dart';
 
 class HistoryCard extends StatelessWidget {
-  const HistoryCard(
-      {super.key,
-      required this.id,
-      required this.time,
-      required this.date,
-      // required this.name,
-      // required this.price,
-      // required this.image,
-      required this.orderPrice});
+  const HistoryCard({
+    super.key,
+    required this.id,
+    required this.time,
+    required this.date,
+    required this.orderPrice,
+    required this.productsInfo,
+  });
 
   final int id;
   final String time;
   final String date;
-  //
-  // final String name;
-  // final double price;
-  // final String image;
-  //
   final double orderPrice;
+  final String productsInfo; // json
 
   @override
   Widget build(BuildContext context) {
+    final jsonDecodedProductsInfo = json.decode(productsInfo);
+
+    List<ProductInShoppingCart> productsInOrderList = [];
+
+    for (var product in jsonDecodedProductsInfo) {
+      productsInOrderList.add(ProductInShoppingCart.fromMap(product));
+    }
+
     return SizedBox(
       width: double.infinity,
       child: Card(
@@ -39,14 +47,12 @@ class HistoryCard extends StatelessWidget {
                     Text(
                       time,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            // color: lightColor,
                             fontSize: 16.0,
                           ),
                     ),
                     Text(
                       date,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            // color: lightColor,
                             fontSize: 16.0,
                           ),
                     ),
@@ -56,62 +62,15 @@ class HistoryCard extends StatelessWidget {
                   color: richColor,
                   thickness: 1.5,
                 ),
-                //
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(vertical: 4.0),
-                //   child: Row(
-                //     children: [
-                //       Padding(
-                //         padding: const EdgeInsets.only(right: 10.0),
-                //         child: ClipRRect(
-                //           borderRadius: BorderRadius.circular(5.0),
-                //           child: Image(
-                //             image: AssetImage(image),
-                //             height: 50.0,
-                //           ),
-                //         ),
-                //       ),
-                //       Expanded(
-                //         child: Column(
-                //           children: [
-                //             Row(
-                //               mainAxisAlignment: MainAxisAlignment.start,
-                //               children: [
-                //                 Text(
-                //                   name,
-                //                   style: Theme.of(context).textTheme.bodyLarge,
-                //                 ),
-                //               ],
-                //             ),
-                //             const SizedBox(
-                //               height: 3.0,
-                //             ),
-                //             Row(
-                //               children: [
-                //                 Text(
-                //                   '$price \$',
-                //                   style: Theme.of(context)
-                //                       .textTheme
-                //                       .bodyMedium!
-                //                       .copyWith(
-                //                         color: lightColor,
-                //                         fontSize: 18.0,
-                //                       ),
-                //                 ),
-                //                 const Padding(
-                //                   padding: EdgeInsets.only(
-                //                     right: 10.0,
-                //                   ),
-                //                 ),
-                //               ],
-                //             ),
-                //           ],
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                //
+                Row(
+                  children: [
+                    Expanded(
+                      child: HistoryOrdersListView(
+                        productsInOrderList: productsInOrderList,
+                      ),
+                    ),
+                  ],
+                ),
                 const Divider(
                   color: richColor,
                   thickness: 1.5,
@@ -123,14 +82,12 @@ class HistoryCard extends StatelessWidget {
                       'Сумма заказа:',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: lightColor,
-                            // fontSize: 16.0,
                           ),
                     ),
                     Text(
-                      '$orderPrice \$', //todo: price изменить на sum
+                      '$orderPrice \$',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: lightColor,
-                            // fontSize: 16.0,
                           ),
                     ),
                   ],

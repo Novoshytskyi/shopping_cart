@@ -21,6 +21,7 @@ class HistoryListView extends StatelessWidget {
         time: orders[index].time,
         date: orders[index].date,
         orderPrice: orders[index].orderPrice,
+        productsInfo: orders[index].productsInfo,
       ),
     );
   }

@@ -13,6 +13,16 @@ class ProductInShoppingCart {
     required this.image,
   });
 
+  Map<String, dynamic> toMap() {
+    final map = <String, dynamic>{};
+    map['id'] = id;
+    map['productId'] = productId;
+    name = map['name'];
+    price = map['price'];
+    image = map['image'];
+    return map;
+  }
+
   ProductInShoppingCart.fromMap(Map<String, dynamic> map) {
     id = map['id'];
     productId = map['productId'];

@@ -83,7 +83,8 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                 );
 
                 // Добавление в таблицу History данных из таблицы ShoppingCart пользователя
-                DBProvider.db.addShoppingCartToHistory(userId: id);
+                DBProvider.db.addShoppingCartToHistory(
+                    userId: id, cartsProductList: ('Проверка').toString());
 
                 // Очистка таблицы ShoppingCart текущего пользователя.
                 DBProvider.db.deleteAllProductsFromShoppingCart(userId: id);
