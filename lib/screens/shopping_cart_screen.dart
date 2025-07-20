@@ -29,6 +29,15 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
 
     cartsList = DBProvider.db.getProductsInShoppingCart(userId: id);
 
+    bool shoppingCarthasProducts = false;
+
+    void checkingShoppingCartIsNotEmpty() async {
+      shoppingCarthasProducts =
+          await DBProvider.db.shoppingCartIsNotEmpty(userId: id);
+    }
+
+    checkingShoppingCartIsNotEmpty();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -74,30 +83,29 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
             ReusableButton(
               text: 'СДЕЛАТЬ ЗАКАЗ',
               onPressed: () {
-                //todo: проверить таблицу на пустоту
-                // if (productsInShoppingCart.isNotEmpty) {
+                DBProvider.db.shoppingCartIsNotEmpty(userId: id);
 
-                showCustomSnackBar(
-                  context,
-                  'Заказ принят',
-                );
+                //todo: проверить таблицу на пустоту shoppingCartIsNotEmpty
+                if (shoppingCarthasProducts) {
+                  showCustomSnackBar(
+                    context,
+                    'Заказ принят',
+                  );
 
-                // Добавление в таблицу History данных из таблицы ShoppingCart пользователя
-                DBProvider.db.addShoppingCartToHistory(
-                    userId: id, cartsProductList: ('Проверка').toString());
+                  // Добавление в таблицу History данных из таблицы ShoppingCart пользователя
+                  DBProvider.db.addShoppingCartToHistory(userId: id);
 
-                // Очистка таблицы ShoppingCart текущего пользователя.
-                DBProvider.db.deleteAllProductsFromShoppingCart(userId: id);
+                  // Очистка таблицы ShoppingCart текущего пользователя.
+                  DBProvider.db.deleteAllProductsFromShoppingCart(userId: id);
 
-                setState(() {});
-
-                // } else {
-                //   showCustomSnackBar(
-                //     context,
-                //     'Коризна пуста',
-                //   );
-                //   playSound();
-                // }
+                  setState(() {});
+                } else {
+                  showCustomSnackBar(
+                    context,
+                    'Коризна пуста',
+                  );
+                  playSound();
+                }
               },
             ),
           ],

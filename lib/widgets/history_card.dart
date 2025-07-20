@@ -1,9 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:shopping_cart/functions.dart';
 import 'package:shopping_cart/model/product_in_shopping_cart.dart';
-
 import '../theme_settings.dart';
 import 'history_orders_list_view.dart';
 

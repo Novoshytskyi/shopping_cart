@@ -252,6 +252,28 @@ class DBProvider {
     return usersShoppingCartList;
   }
 
+  //! Проверка таблицы ShoppingCart на пустоту
+  Future<bool> shoppingCartIsNotEmpty({
+    required int userId,
+  }) async {
+    Database? db = await database;
+
+    final res =
+        await db!.rawQuery("SELECT COUNT(*) FROM ShoppingCart_User_$userId;");
+
+    debugColorPrint(res[0]['COUNT(*)'].toString());
+
+    // return User.fromMap(res[0]);
+
+    if (res[0]['COUNT(*)'] == 0) {
+      debugColorPrint('false');
+      return false;
+    } else {
+      debugColorPrint('true');
+      return true;
+    }
+  }
+
   //! Создание таблицы History (для нового пользователя)
   Future<void> createTableHistory({
     required int userId,
@@ -272,7 +294,6 @@ class DBProvider {
 
   Future<void> addShoppingCartToHistory({
     required int userId,
-    required String cartsProductList,
   }) async {
     Database? db = await database;
 
