@@ -21,7 +21,6 @@ class Shopping extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: customThemeSettings,
       title: 'Shopping',
-      // initialRoute: '/page7',
       routes: <String, WidgetBuilder>{
         '/page1': (context) => const AuthScreen(),
         '/page2': (context) => const RegisterScreen(),
@@ -32,7 +31,6 @@ class Shopping extends StatelessWidget {
         '/page7': (context) => const SplashScreen(),
       },
       home: const SplashScreen(),
-      // home: const HistoryScreen(), //TODO ВРЕМЕННО
     );
   }
 }

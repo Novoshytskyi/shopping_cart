@@ -219,30 +219,47 @@ class _RegisterScreenState extends State<RegisterScreen> {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      // Добавление нового пользователя в БД
-      User user = User(
-        id: null,
-        name: _nameController.text,
-        email: _emailController.text,
-        password: _passController.text,
-      );
-      DBProvider.db.insertUser(user);
+      Future<void> passAuth() async {
+        var passFromDb = await DBProvider.db
+            .getPassByEmail(_emailController.text.toString());
 
-      // Добавление нового пользователя в Secure Storage
-      await saveNewUserToSecureStorage();
+        debugColorPrint(passFromDb.toString());
 
-      // Создание таблиц ShoppingCart и History (для нового пользователя)
-      await createTablesForNewUser();
+        if (passFromDb == '') {
+          // Добавление нового пользователя в БД
+          User user = User(
+            id: null,
+            name: _nameController.text,
+            email: _emailController.text,
+            password: _passController.text,
+          );
+          DBProvider.db.insertUser(user);
 
-      _nameController.text = '';
-      _emailController.text = '';
-      _passController.text = '';
-      _confirmPassController.text = '';
+          // Добавление нового пользователя в Secure Storage
+          await saveNewUserToSecureStorage();
 
-      routeToProductsPage();
+          // Создание таблиц ShoppingCart и History (для нового пользователя)
+          await createTablesForNewUser();
+
+          _nameController.text = '';
+          _emailController.text = '';
+          _passController.text = '';
+          _confirmPassController.text = '';
+
+          routeToProductsPage();
+        } else {
+          doIfEmailAlreadyExists();
+        }
+      }
+
+      passAuth();
     } else {
       showCustomSnackBar(context, 'Заполните поля корректно');
     }
+  }
+
+  void doIfEmailAlreadyExists() {
+    showCustomSnackBar(context, 'Такой email уже зарегистрирован');
   }
 
   void routeToProductsPage() {
@@ -256,7 +273,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     User newUser = await DBProvider.db.getNewUser();
 
     await UserSecureStorage.setCurrentUserInfo(newUser);
-    currentUser = newUser; //! +++
+    currentUser = newUser;
   }
 
   Future createTablesForNewUser() async {

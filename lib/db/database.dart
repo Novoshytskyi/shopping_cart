@@ -36,6 +36,7 @@ class DBProvider {
     );
   }
 
+  // Информация о продуктах в ShoppingCart для сохранения в истории покупок.
   String jsonEncodedProductsInShoppingCartInfo = '';
 
   void _createDb(Database db, int version) async {
@@ -49,7 +50,7 @@ class DBProvider {
           );
     ''');
 
-    // Наполнение таблицы Продуктов
+    // Наполнение таблицы Продуктов.
     await db.execute('''
       INSERT INTO Products (name, price, image)
       VALUES
@@ -65,7 +66,7 @@ class DBProvider {
           ('MacBook Pro M3 gray', 1300, 'images/pro-m2-space-gray.jpg');
     ''');
 
-    // Создание таблицы Пользователей
+    // Создание таблицы Пользователей.
     await db.execute('''
       CREATE TABLE IF NOT EXISTS Users(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -76,7 +77,7 @@ class DBProvider {
     ''');
   }
 
-  // Read Users
+  // Получение Пользователей.
   Future<List<User>> getUsers() async {
     Database? db = await database;
     final List<Map<String, dynamic>> usersMapList = await db!.query("Users");
@@ -89,14 +90,14 @@ class DBProvider {
     return usersList;
   }
 
-  // Insert User
+  // Добавление Пользователя.
   Future<User> insertUser(User user) async {
     Database? db = await database;
     user.id = (await db?.insert("Users", user.toMap()))!;
     return user;
   }
 
-  // Update User
+  // Обновление Пользователя.
   Future<int?> updateUser(User user) async {
     Database? db = await database;
     return await db?.update(
@@ -107,8 +108,7 @@ class DBProvider {
     );
   }
 
-  // Delete User
-  // Удадить таблицы этого пользователя ShoppingCart и History
+  // Удаление пользователя.
   Future<int?> deleteUser(int id) async {
     Database? db = await database;
     return await db?.delete(
@@ -117,8 +117,9 @@ class DBProvider {
       whereArgs: [id],
     );
   }
+  //TODO: // Удадить таблицы этого пользователя ShoppingCart и History
 
-  // Read Table Products
+  // Чтение таблицы Products (список продуктов).
   Future<List<Product>> getProducts() async {
     Database? db = await database;
     final List<Map<String, dynamic>> productsMapList =
@@ -132,14 +133,14 @@ class DBProvider {
     return productsList;
   }
 
-  // Получение id только зарегестрированного пользователя
+  // Получение id только зарегестрированного пользователя.
   Future<int> getNewUserId() async {
     Database? db = await database;
     var res = await db!.rawQuery("SELECT MAX(id) FROM Users;");
     return int.parse(res[0]['MAX(id)'].toString());
   }
 
-  // Получение только зарегестрированного пользователя
+  // Получение только зарегестрированного пользователя.
   Future<User> getNewUser() async {
     Database? db = await database;
     final List<Map<String, dynamic>> res =
@@ -174,7 +175,7 @@ class DBProvider {
     return User.fromMap(res[0]);
   }
 
-  //! Создание таблицы ShoppingCart (для нового пользователя)
+  // Создание таблицы ShoppingCart (для нового пользователя).
   Future<void> createTableShoppingCart(int userId) async {
     Database? db = await database;
     await db?.execute('''
@@ -185,7 +186,7 @@ class DBProvider {
     ''');
   }
 
-  //! Добавление товара в таблицу ShoppingCart пользователя
+  // Добавление товара в таблицу ShoppingCart пользователя.
   Future<ShoppingCart> insertProductToShoppingCart({
     required ShoppingCart shoppingCart,
     required int userId,
@@ -199,7 +200,7 @@ class DBProvider {
     return shoppingCart;
   }
 
-  //! Удаление товара из таблицы ShoppingCart пользователя
+  // Удаление товара из таблицы ShoppingCart пользователя.
   Future<int?> deleteProductFromShoppingCart({
     required int productId,
     required int userId,
@@ -213,7 +214,7 @@ class DBProvider {
     );
   }
 
-  //! Удаление всех товаров из из таблицы ShoppingCart пользователя
+  // Удаление всех товаров из из таблицы ShoppingCart пользователя.
   Future<void> deleteAllProductsFromShoppingCart({
     required int userId,
   }) async {
@@ -221,7 +222,7 @@ class DBProvider {
     await db?.execute("DELETE  FROM ShoppingCart_User_$userId ;");
   }
 
-  //! Получение карт товаров из таблицы ShoppingCart пользователя
+  // Получение карт товаров из таблицы ShoppingCart пользователя.
   Future<List<ProductInShoppingCart>> getProductsInShoppingCart({
     required int userId,
   }) async {
@@ -245,14 +246,14 @@ class DBProvider {
         ProductInShoppingCart.fromMap(item),
       );
     }
-
+    // Информация о продуктах в ShoppingCart для сохранения в истории покупок.
     jsonEncodedProductsInShoppingCartInfo =
-        json.encode(userShoppingCartMapList); //TODO ПРОКОММЕНТИРОВАТЬ!
+        json.encode(userShoppingCartMapList);
 
     return usersShoppingCartList;
   }
 
-  //! Проверка таблицы ShoppingCart на пустоту
+  // Проверка таблицы ShoppingCart на пустоту.
   Future<bool> shoppingCartIsNotEmpty({
     required int userId,
   }) async {
@@ -263,8 +264,6 @@ class DBProvider {
 
     debugColorPrint(res[0]['COUNT(*)'].toString());
 
-    // return User.fromMap(res[0]);
-
     if (res[0]['COUNT(*)'] == 0) {
       debugColorPrint('false');
       return false;
@@ -274,7 +273,7 @@ class DBProvider {
     }
   }
 
-  //! Создание таблицы History (для нового пользователя)
+  // Создание таблицы History (для нового пользователя).
   Future<void> createTableHistory({
     required int userId,
   }) async {
@@ -290,8 +289,7 @@ class DBProvider {
     ''');
   }
 
-  //! Добавление в таблицу History данных из таблицы ShoppingCart пользователя
-
+  // Добавление в таблицу History данных из таблицы ShoppingCart пользователя.
   Future<void> addShoppingCartToHistory({
     required int userId,
   }) async {
@@ -311,7 +309,7 @@ class DBProvider {
     ''');
   }
 
-  //! Получение истории покупок товаров из таблицы History пользователя
+  // Получение истории покупок товаров из таблицы History пользователя.
   Future<List<History>> getHistory({
     required int userId,
   }) async {
@@ -329,7 +327,7 @@ class DBProvider {
     return historyList;
   }
 
-  //! Удаление истории покупок товаров из таблицы History пользователя
+  // Удаление истории покупок товаров из таблицы History пользователя.
   Future<void> deleteHistory({
     required int userId,
   }) async {

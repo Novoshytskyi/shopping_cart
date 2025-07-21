@@ -75,7 +75,7 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
                   if (snapshot.data == null || snapshot.data!.isEmpty) {
                     return const Text('Данные товаров в корзине не найденны.');
                   }
-                  // print(_cartsList);
+
                   return const CircularProgressIndicator();
                 },
               ),
@@ -85,14 +85,13 @@ class _ShoppingCartScreenState extends State<ShoppingCartScreen> {
               onPressed: () {
                 DBProvider.db.shoppingCartIsNotEmpty(userId: id);
 
-                //todo: проверить таблицу на пустоту shoppingCartIsNotEmpty
                 if (shoppingCarthasProducts) {
                   showCustomSnackBar(
                     context,
                     'Заказ принят',
                   );
 
-                  // Добавление в таблицу History данных из таблицы ShoppingCart пользователя
+                  // Добавление в таблицу History данных из таблицы. ShoppingCart пользователя
                   DBProvider.db.addShoppingCartToHistory(userId: id);
 
                   // Очистка таблицы ShoppingCart текущего пользователя.
