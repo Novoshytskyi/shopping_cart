@@ -71,7 +71,7 @@ class DBProvider {
       CREATE TABLE IF NOT EXISTS Users(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT,
-      email TEXT,
+      email TEXT UNIQUE,
       password TEXT
       );
     ''');
@@ -117,7 +117,22 @@ class DBProvider {
       whereArgs: [id],
     );
   }
-  //TODO: // Удадить таблицы этого пользователя ShoppingCart и History
+
+  // Удаление таблицы ShoppingCart пользователя.
+  Future<void> deleteTableShoppingCart(int userId) async {
+    Database? db = await database;
+    await db?.execute('''
+      DROP TABLE IF EXISTS ShoppingCart_User_$userId;
+    ''');
+  }
+
+  // Удаление таблицы History пользователя.
+  Future<void> deleteTableHistory(int userId) async {
+    Database? db = await database;
+    await db?.execute('''
+      DROP TABLE IF EXISTS History_User_$userId;
+    ''');
+  }
 
   // Чтение таблицы Products (список продуктов).
   Future<List<Product>> getProducts() async {
@@ -162,8 +177,6 @@ class DBProvider {
     }
     return pass;
   }
-
-  //TODO: Объединить запрос пароляи и почты!
 
   // Получение пользователя по введенному email.
   Future<User> getUserByEmail(String email) async {
@@ -262,13 +275,9 @@ class DBProvider {
     final res =
         await db!.rawQuery("SELECT COUNT(*) FROM ShoppingCart_User_$userId;");
 
-    debugColorPrint(res[0]['COUNT(*)'].toString());
-
     if (res[0]['COUNT(*)'] == 0) {
-      debugColorPrint('false');
       return false;
     } else {
-      debugColorPrint('true');
       return true;
     }
   }

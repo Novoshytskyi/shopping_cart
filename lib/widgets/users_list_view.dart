@@ -66,6 +66,10 @@ class UsersCardsListView extends StatelessWidget {
                   IconButton(
                     onPressed: () {
                       DBProvider.db.deleteUser(snapshot.data![index].id!);
+                      DBProvider.db
+                          .deleteTableShoppingCart(snapshot.data![index].id!);
+                      DBProvider.db
+                          .deleteTableHistory(snapshot.data![index].id!);
 
                       onPressed();
 

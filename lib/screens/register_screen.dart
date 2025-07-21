@@ -223,8 +223,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         var passFromDb = await DBProvider.db
             .getPassByEmail(_emailController.text.toString());
 
-        debugColorPrint(passFromDb.toString());
-
         if (passFromDb == '') {
           // Добавление нового пользователя в БД
           User user = User(
