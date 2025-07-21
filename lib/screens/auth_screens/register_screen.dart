@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../db/database.dart';
-import '../functions.dart';
-import '../model/user.dart';
-import '../theme_settings.dart';
-import '../user_secure_storage.dart';
-import '../widgets/reusable_button.dart';
+import '../../db/database.dart';
+import '../../functions.dart';
+import '../../model/user.dart';
+import '../../theme_settings.dart';
+import '../../user_secure_storage.dart';
+import '../../widgets/reusable_button.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});

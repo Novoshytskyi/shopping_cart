@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:shopping_cart/model/user.dart';
-import '../db/database.dart';
-import '../functions.dart';
-import '../theme_settings.dart';
-import '../user_secure_storage.dart';
-import '../widgets/reusable_button.dart';
+
+import '../../db/database.dart';
+import '../../functions.dart';
+import '../../theme_settings.dart';
+import '../../user_secure_storage.dart';
+import '../../widgets/reusable_button.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:shopping_cart/screens/history_screen.dart';
 import 'package:shopping_cart/screens/splash_screen.dart';
 import 'package:shopping_cart/screens/users_info_screen.dart';
-import 'screens/auth_screen.dart';
+import 'screens/auth_screens/auth_screen.dart';
+import 'screens/auth_screens/register_screen.dart';
 import 'screens/products_screen.dart';
-import 'screens/register_screen.dart';
 import 'screens/shopping_cart_screen.dart';
 import 'theme_settings.dart';
 
